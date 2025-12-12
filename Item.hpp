@@ -21,13 +21,12 @@ enum bullet
     Medium = 1,
     Heavy = 2,
     Shells = 3,
-    Rockets = 4,
-    None = 5
+    Rockets = 4
 };
 
 enum type
 {
-    Weapon = 1,
+    Gun = 1,
     Consumable = 2,
     Bullet = 3,
     Throwables = 4
@@ -38,6 +37,7 @@ class Item
     int ID;
     rarity rarityID;
     string name, description;
+    type typeID;
 
     public:
         Item() {}
@@ -50,6 +50,9 @@ class Item
         void setName(const string id) { name = id; }
         string getDescription() const { return description; }
         void setDescription(const string id) { description = id; }
+        type getType() const { return typeID; }
+        void setType(const type id) { typeID = id; }
+        virtual ~Item() {}
 };
 
 #endif

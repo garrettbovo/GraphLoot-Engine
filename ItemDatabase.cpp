@@ -1,17 +1,18 @@
-#include "Item.hpp"
-#include "Weapon.hpp"
 #include "ItemDatabase.hpp"
 
 #include <fstream>
+#include <sstream>
+#include <string>
 
-int readCSV(const string &filename)
+int readCSV()
 {
     ifstream file;
-    string strID, strRarityID, line, name, description, strAmmo, strMagSize, strDamage, strFireRate, strReloadTime;
-    int ID, magSize;
+    string strID, strRarityID, line, name, description, strAmmo, strMagSize, strDamage, strFireRate, strReloadTime, strType;
+    int ID, magSize, i = 0;
     rarity rarityID;
     bullet ammo;
     double damage, fireRate, reloadTime;
+    type typeID;
     Item *node;
     file.open("Items.csv");
 
@@ -21,43 +22,97 @@ int readCSV(const string &filename)
         return 1;
     }
 
-    for (int i = 0; !file.eof(); i++)
+    while (getline(file, line))
     {
-        getline(file, line);
+        stringstream ss(line);
 
-        if (!i)
+        if (i++ == 0)
             continue;
         
-        getline(file, strID, ',');
+        getline(ss, strID, ',');
         ID = stoi(strID);
 
-        getline(file, name, ',');
+        getline(ss, name, ',');
 
-        getline(file, strRarityID, ',');
+        getline(ss, strRarityID, ',');
         rarityID = static_cast<rarity>(stoi(strRarityID));
         
-        getline(file, description, ',');
-        
-        getline(file, strAmmo, ',');
-        ammo = static_cast<bullet>(stoi(strAmmo));
+        getline(ss, description, ',');
 
-        getline(file, strDamage, ',');
-        damage = stod(strDamage);
+        getline(ss, strType, ',');
+        typeID = static_cast<type>(stoi(strType));
 
-        getline(file, strFireRate, ',');
-        fireRate = stod(strFireRate);
--
-        getline(file, strMagSize, ',');
-        magSize = stoi(strMagSize);
-
-        getline(file, strReloadTime, ',');
-        reloadTime = stod(strReloadTime);
-
-        if (ammo == None)
+        if (!typeID)
             node = new Item(ID, rarityID, name, description);
+            
         else
+        {
+            getline(ss, strAmmo, ',');
+            ammo = static_cast<bullet>(stoi(strAmmo));
+
+            getline(ss, strDamage, ',');
+            damage = stod(strDamage);
+
+            getline(ss, strFireRate, ',');
+            fireRate = stod(strFireRate);
+
+            getline(ss, strMagSize, ',');
+            magSize = stoi(strMagSize);
+
+            getline(ss, strReloadTime, ',');
+            reloadTime = stod(strReloadTime);
+
             node = new Weapon(ID, rarityID, name, description, damage, fireRate, reloadTime, ammo, magSize);
+        }
+
+        allItems.push_back(node);
     }
 
     return 0;
+}
+
+void setLootPool()
+{
+    RarityWeight rarityWeight;
+    int gunWeight = Weapons;
+    Weapon *weapon;
+
+    for (int i = 0; i < allItems.size(); i++)
+    {
+        switch (allItems[i]->getRarityID())
+        {
+            case 0: rarityWeight = Common; break;
+            case 1: rarityWeight = Uncommon; break;
+            case 2: rarityWeight = Rare; break;
+            case 3: rarityWeight = Epic; break;
+            case 4: rarityWeight = Legendary; break;
+            case 5: rarityWeight = Mythic; break;
+            case 6: rarityWeight = Epic; break;
+        }
+
+        if (allItems[i]->getType() == Gun)
+        {
+            weapon = dynamic_cast<Weapon *>(allItems[i]);
+
+            switch (weapon->getAmmo())
+            {
+                case 0: gunWeight *= 1.1; break;
+                case 1: gunWeight *= 1; break;
+                case 2: gunWeight *= 0.5; break;
+                case 3: gunWeight *= 0.9; break;
+                case 4: gunWeight *= 0.3; break;
+            }
+        }
+    }
+}
+
+void freeMem()
+{
+    for (int i = 0; i < allItems.size(); i++)
+    {
+        delete allItems[i];
+        allItems[i] = nullptr;
+    }
+
+    allItems.clear();
 }

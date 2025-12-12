@@ -3,8 +3,7 @@
 
 #include "Item.hpp"
 
-#include <iostream>
-using namespace std;
+#include <string>
 
 class Weapon : public Item
 {
@@ -14,7 +13,6 @@ class Weapon : public Item
 
     public:
         Weapon() {}
-        Weapon(const double, const double, const double, const bullet, const int);
         Weapon(const int , const rarity, const string, const string, const double, const double, const double, const bullet, const int);
         double getDamage() const { return damage; }
         void setDamage(const double id) { damage = id; }
@@ -23,9 +21,10 @@ class Weapon : public Item
         double getReloadTime() const { return reloadTime; }
         void setReloadTime (const double id) { fireRate = id; }
         bullet getAmmo() const { return ammo; }
-        void setFireRate(const bullet id) { ammo = id; }
-        double getMagSize() const { return magSize; }
+        void setAmmo(const bullet id) { ammo = id; }
+        int getMagSize() const { return magSize; }
         void setMagSize(const int id) { magSize = id; }
+        ~Weapon() {}
 };
 
 #endif

@@ -1,13 +1,17 @@
 #ifndef ITEMDATABASE_H
 #define ITEMDATABASE_H
 
-#include <vector>
 #include "Item.hpp"
 #include "Weapon.hpp"
+#include "LootPool.hpp"
 
-vector<Item> allItems;
+#include <vector>
 
-int readCSV(const string &);
+extern vector<Item *> allItems;
+extern vector<Entry *> gunWeights, otherWeights;
+
+int readCSV();
+void setLootPool();
 void freeMem();
 
 #endif
