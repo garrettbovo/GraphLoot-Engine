@@ -21,7 +21,8 @@ enum bullet
     Medium = 1,
     Heavy = 2,
     Shells = 3,
-    Rockets = 4
+    Rockets = 4,
+    None = 5
 };
 
 enum type
@@ -36,19 +37,19 @@ class Item
 {
     int ID;
     rarity rarityID;
-    type typeID;
     string name, description;
 
     public:
-        Item();
-        Item();
+        Item() {}
+        Item(const int, const rarity, const string, const string);
         int getID() const { return ID; }
         void setID(const int id) { ID = id; }
         rarity getRarityID() const { return rarityID; }
         void setRarityID(const rarity id) { rarityID = id; }
-        type getTypeID() const { return typeID; }
-        void setTypeID(const type id) { typeID = id; }
-        string getName() const { return }
+        string getName() const { return name; }
+        void setName(const string id) { name = id; }
+        string getDescription() const { return description; }
+        void setDescription(const string id) { description = id; }
 };
 
 #endif
