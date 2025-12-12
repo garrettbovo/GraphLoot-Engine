@@ -46,7 +46,7 @@ int readCSV(const string &filename)
 
         getline(file, strFireRate, ',');
         fireRate = stod(strFireRate);
-
+-
         getline(file, strMagSize, ',');
         magSize = stoi(strMagSize);
 
