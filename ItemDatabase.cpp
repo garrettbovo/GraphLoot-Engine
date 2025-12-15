@@ -74,8 +74,9 @@ int readCSV()
 void setLootPool()
 {
     RarityWeight rarityWeight;
-    int gunWeight = Weapons;
+    int gunWeight = Weapons, typeWeight;
     Weapon *weapon;
+    Entry *newNode;
 
     for (int i = 0; i < allItems.size(); i++)
     {
@@ -87,7 +88,7 @@ void setLootPool()
             case 3: rarityWeight = Epic; break;
             case 4: rarityWeight = Legendary; break;
             case 5: rarityWeight = Mythic; break;
-            case 6: rarityWeight = Epic; break;
+            case 6: rarityWeight = Exotic; break;
         }
 
         if (allItems[i]->getType() == Gun)
@@ -96,23 +97,45 @@ void setLootPool()
 
             switch (weapon->getAmmo())
             {
-                case 0: gunWeight *= 1.1; break;
-                case 1: gunWeight *= 1; break;
-                case 2: gunWeight *= 0.5; break;
-                case 3: gunWeight *= 0.9; break;
-                case 4: gunWeight *= 0.3; break;
+                case Light: gunWeight *= 1.1; break;
+                case Medium: gunWeight *= 1; break;
+                case Heavy: gunWeight *= 0.5; break;
+                case Shells: gunWeight *= 0.9; break;
+                case Rockets: gunWeight *= 0.3; break;
             }
+
+            newNode = new Entry(weapon, rarityWeight * gunWeight);
         }
+
+        else
+        {
+            switch (allItems[i]->getType())
+            {
+                case Consumable: typeWeight *= Consumables;
+                case Throwables: typeWeight *= Throwables;
+                case Utility: typeWeight *= Utility;
+            }
+
+            newNode = new Entry(allItems[i], typeWeight);
+        }
+
+        gunWeights.push_back(newNode);
     }
 }
 
-void freeMem()
+void deleteVect()
 {
-    for (int i = 0; i < allItems.size(); i++)
+    freeMem(allItems);
+}
+
+template <typename T>
+void freeMem(vector<T *> vectDS)
+{
+    for (int i = 0; i < vectDS.size(); i++)
     {
-        delete allItems[i];
-        allItems[i] = nullptr;
+        delete vectDS[i];
+        vectDS[i] = nullptr;
     }
 
-    allItems.clear();
+    vectDS.clear();
 }
