@@ -3,15 +3,19 @@
 
 #include "Item.hpp"
 #include "Weapon.hpp"
+#include "Entry.hpp"
 #include "LootPool.hpp"
 
 #include <vector>
 
 extern vector<Item *> allItems;
-extern vector<Entry *> gunWeights, otherWeights;
 
 int readCSV();
 void setLootPool();
-void freeMem();
+
+void deleteVect();
+
+template <typename T>
+void freeMem(T *);
 
 #endif

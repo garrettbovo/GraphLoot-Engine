@@ -75,9 +75,9 @@ int readCSV()
 void setLootPool()
 {
     RarityWeight rarityWeight;
-    int gunWeight = Weapons, typeWeight;
-    LootPool weaponPool, itemPool;
+    int gunWeight = Weapons;
     Weapon *weapon;
+    Entry *newNode;
 
     for (int i = 0; i < allItems.size(); i++)
     {
@@ -104,20 +104,6 @@ void setLootPool()
                 case Shells: gunWeight *= 0.9; break;
                 case Rockets: gunWeight *= 0.3; break;
             }
-
-            weaponPool.addEntry(weapon, rarityWeight * gunWeight);
-        }
-
-        else
-        {
-            switch (allItems[i]->getType())
-            {
-                case Consumable: typeWeight *= Consumables;
-                case Throwables: typeWeight *= Throwables;
-                case Utility: typeWeight *= Utility;
-            }
-
-            itemPool.addEntry(allItems[i], typeWeight);
         }
     }
 }
