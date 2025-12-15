@@ -1,6 +1,28 @@
 #include "LootPool.hpp"
 
-Entry::Entry()
+#include <vector>
+
+void LootPool::addEntry(const Item *item, const int weight)
 {
+    entries.emplace_back(item, weight);-
+}
+
+Item *LootPool::roll() const 
+{
+    int randNum, weight = 0;
+
+    if (entries.empty())
+        return nullptr;
     
+    randNum = rand() % totalWeight + 1;
+
+    for (int i = 0; i < entries.size(); i++)
+    {
+        weight += entries[i].getWeight();
+
+        if (randNum <= weight)
+            return entries[i].getItem();
+    }
+
+    return nullptr;
 }
