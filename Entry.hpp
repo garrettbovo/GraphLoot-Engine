@@ -21,7 +21,7 @@ enum CategoryWeight
     Weapons = 100,
     Consumables = 70,
     Throwables = 30,
-    Utility = 20
+    Utilities = 20
 };
 
 class Entry

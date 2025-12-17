@@ -44,7 +44,7 @@ int readCSV()
         typeID = static_cast<type>(stoi(strType));
 
         if (!typeID)
-            node = new Item(ID, rarityID, name, description);
+            node = new Item(ID, rarityID, name, description, typeID);
             
         else
         {
@@ -63,7 +63,7 @@ int readCSV()
             getline(ss, strReloadTime, ',');
             reloadTime = stod(strReloadTime);
 
-            node = new Weapon(ID, rarityID, name, description, damage, fireRate, reloadTime, ammo, magSize);
+            node = new Weapon(ID, rarityID, name, description, typeID, damage, fireRate, reloadTime, ammo, magSize);
         }
 
         allItems.push_back(node);
@@ -78,6 +78,7 @@ void setLootPool()
     int gunWeight = Weapons;
     Weapon *weapon;
     Entry *newNode;
+    LootPool weaponPool, itemPool;
 
     for (int i = 0; i < allItems.size(); i++)
     {
@@ -104,13 +105,22 @@ void setLootPool()
                 case Shells: gunWeight *= 0.9; break;
                 case Rockets: gunWeight *= 0.3; break;
             }
+
+            weaponPool.addEntry(weapon, rarityWeight * gunWeight);
+        }
+
+        else
+        {
+            switch (allItems[i]->getType())
+            {
+                case Consumable: gunWeight = Consumables; break;
+                case Throwable: gunWeight = Throwables; break;
+                case Utility: gunWeight = Utilities; break;
+            }
+
+            itemPool.addEntry(allItems[i], gunWeight);
         }
     }
-}
-
-void deleteVect()
-{
-    freeMem(allItems);
 }
 
 template <typename T>

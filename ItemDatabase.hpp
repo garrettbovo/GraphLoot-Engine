@@ -13,8 +13,6 @@ extern vector<Item *> allItems;
 int readCSV();
 void setLootPool();
 
-void deleteVect();
-
 template <typename T>
 void freeMem(T *);
 

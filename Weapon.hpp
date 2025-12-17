@@ -13,7 +13,7 @@ class Weapon : public Item
 
     public:
         Weapon() {}
-        Weapon(const int , const rarity, const string, const string, const double, const double, const double, const bullet, const int);
+        Weapon(const int , const rarity, const string, const string, const type, const double, const double, const double, const bullet, const int);
         double getDamage() const { return damage; }
         void setDamage(const double id) { damage = id; }
         double getFireRate() const { return fireRate; }

@@ -4,7 +4,9 @@
 
 void LootPool::addEntry(const Item *item, const int weight)
 {
-    entries.emplace_back(item, weight);-
+    entries.emplace_back(item, weight);
+
+    totalWeight += weight;
 }
 
 Item *LootPool::roll() const 
@@ -25,4 +27,9 @@ Item *LootPool::roll() const
     }
 
     return nullptr;
+}
+
+LootPool::~LootPool()
+{
+    entries.clear();
 }

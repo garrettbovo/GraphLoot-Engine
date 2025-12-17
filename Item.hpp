@@ -29,7 +29,8 @@ enum type
     Gun = 1,
     Consumable = 2,
     Bullet = 3,
-    Throwables = 4
+    Throwable = 4,
+    Utility = 5
 };
 
 class Item
@@ -41,7 +42,7 @@ class Item
 
     public:
         Item() {}
-        Item(const int, const rarity, const string, const string);
+        Item(const int, const rarity, const string, const string, const type);
         int getID() const { return ID; }
         void setID(const int id) { ID = id; }
         rarity getRarityID() const { return rarityID; }
