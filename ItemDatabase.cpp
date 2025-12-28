@@ -1,11 +1,12 @@
 #include "ItemDatabase.hpp"
 #include "LootPool.hpp"
+#include "Chest.hpp"
 
 #include <fstream>
 #include <sstream>
 #include <string>
 
-int readCSV()
+int ItemDatabase::readCSV()
 {
     ifstream file;
     string strID, strRarityID, line, name, description, strAmmo, strMagSize, strDamage, strFireRate, strReloadTime, strType;
@@ -72,13 +73,14 @@ int readCSV()
     return 0;
 }
 
-void setLootPool()
+void ItemDatabase::setLootPool()
 {
     RarityWeight rarityWeight;
-    int gunWeight = Weapons;
+    double categoryWeight;
     Weapon *weapon;
-    Entry *newNode;
-    LootPool weaponPool, itemPool;
+
+    weaponPool.clear();
+    itemPool.clear();
 
     for (int i = 0; i < allItems.size(); i++)
     {
@@ -91,6 +93,7 @@ void setLootPool()
             case 4: rarityWeight = Legendary; break;
             case 5: rarityWeight = Mythic; break;
             case 6: rarityWeight = Exotic; break;
+            default: rarityWeight = Common; break;
         }
 
         if (allItems[i]->getType() == Gun)
@@ -99,38 +102,52 @@ void setLootPool()
 
             switch (weapon->getAmmo())
             {
-                case Light: gunWeight *= 1.1; break;
-                case Medium: gunWeight *= 1; break;
-                case Heavy: gunWeight *= 0.5; break;
-                case Shells: gunWeight *= 0.9; break;
-                case Rockets: gunWeight *= 0.3; break;
+                case Light: categoryWeight = Weapons * 1.1; break;
+                case Medium: categoryWeight = Weapons * 1; break;
+                case Heavy: categoryWeight = Weapons * 0.5; break;
+                case Shells: categoryWeight = Weapons * 0.9; break;
+                case Rockets: categoryWeight = Weapons * 0.3; break;
+                default: categoryWeight = Weapons; break;
             }
 
-            weaponPool.addEntry(weapon, rarityWeight * gunWeight);
+            weaponPool.addEntry(weapon, rarityWeight * categoryWeight);
         }
 
         else
         {
             switch (allItems[i]->getType())
             {
-                case Consumable: gunWeight = Consumables; break;
-                case Throwable: gunWeight = Throwables; break;
-                case Utility: gunWeight = Utilities; break;
+                case Consumable: categoryWeight = Consumables; break;
+                case Throwable: categoryWeight = Throwables; break;
+                case Utility: categoryWeight = Utilities; break;
+                default: categoryWeight = Weapons; break;
             }
 
-            itemPool.addEntry(allItems[i], gunWeight);
+            itemPool.addEntry(allItems[i], rarityWeight * categoryWeight);
         }
     }
 }
 
-template <typename T>
-void freeMem(vector<T *> vectDS)
+Weapon *ItemDatabase::rollWeapon()
 {
-    for (int i = 0; i < vectDS.size(); i++)
-    {
-        delete vectDS[i];
-        vectDS[i] = nullptr;
-    }
+    return static_cast<Weapon *>(weaponPool.roll());
+}
 
-    vectDS.clear();
+Item *ItemDatabase::rollItem()
+{
+    return itemPool.roll();
+}
+
+Chest ItemDatabase::openChest()
+{
+    Chest newNode;
+    Weapon *rollW = rollWeapon();
+    Item *rollI = rollItem();
+
+    newNode.setWeapon(rollW);
+    newNode.setAmmoQuantity(rollW);
+    newNode.setAmmoType(rollW);
+    newNode.setExtra(rollI);
+
+    return newNode;
 }

@@ -20,6 +20,7 @@ class Graph
         void addVertex(const string &);
         void addEdge(const string &, const string &, const double &);
         vector<string> shortestPath(const string &, const string &);
+        unordered_map<string, vector<Edge>> getAdjList() const { return adjList; }
         void print() const;
 };
 

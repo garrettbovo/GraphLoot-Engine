@@ -9,14 +9,15 @@
 class LootPool
 {
     vector<Entry> entries;
-    int totalWeight;
+    double totalWeight;
 
     public:
         LootPool();
-        void addEntry(const Item *, const int);
+        void addEntry(const Item *, const double);
         Item *roll() const;
         int size() const { return entries.size(); }
-        int getTotalWeight() const { return totalWeight; }
+        double getTotalWeight() const { return totalWeight; }
+        void clear();
         ~LootPool();
 };
 

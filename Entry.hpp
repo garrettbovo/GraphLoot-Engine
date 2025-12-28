@@ -27,15 +27,15 @@ enum CategoryWeight
 class Entry
 {
     Item *item;
-    int weight;
+    double weight;
 
     public:
         Entry() {}
-        Entry(Item *, const int);
+        Entry(Item *, const double);
         Item *getItem() const { return item; }
         void setItem (Item *id) { item = id; }
-        int getWeight() const { return weight; }
-        void setWeight(const int id) { weight = id; }
+        double getWeight() const { return weight; }
+        void setWeight(const double id) { weight = id; }
         ~Entry() {}
 };
 

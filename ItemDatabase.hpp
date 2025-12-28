@@ -5,15 +5,33 @@
 #include "Weapon.hpp"
 #include "Entry.hpp"
 #include "LootPool.hpp"
+#include "Chest.hpp"
 
 #include <vector>
 
-extern vector<Item *> allItems;
+class ItemDatabase
+{
+    LootPool weaponPool, itemPool;
+    vector<Item *> allItems;
 
-int readCSV();
-void setLootPool();
+    public:
+        void setLootPool();
+        int readCSV();
+        Weapon *rollWeapon();
+        Item *rollItem();
+        Chest openChest();
+        template <typename T>
+        void freeMem(vector<T *> &)
+        {
+            for (int i = 0; i < vectDS.size(); i++)
+            {
+                delete vectDS[i];
+                vectDS[i] = nullptr;
+            }
 
-template <typename T>
-void freeMem(T *);
+            vectDS.clear();
+        }
+        ~ItemDatabase() { freeMem(allItems); }
+};
 
 #endif

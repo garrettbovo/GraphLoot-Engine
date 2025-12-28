@@ -2,7 +2,7 @@
 
 #include <vector>
 
-void LootPool::addEntry(const Item *item, const int weight)
+void LootPool::addEntry(const Item *item, const double weight)
 {
     entries.emplace_back(item, weight);
 
@@ -11,25 +11,29 @@ void LootPool::addEntry(const Item *item, const int weight)
 
 Item *LootPool::roll() const 
 {
-    int randNum, weight = 0;
+    double roll, weight = 0.0;
 
     if (entries.empty())
         return nullptr;
     
-    randNum = rand() % totalWeight + 1;
+    do
+    {
+        roll = (double) rand() / RAND_MAX * totalWeight;
+    } while (roll == 0.0);
 
     for (int i = 0; i < entries.size(); i++)
     {
         weight += entries[i].getWeight();
 
-        if (randNum <= weight)
+        if (roll <= weight)
             return entries[i].getItem();
     }
 
     return nullptr;
 }
 
-LootPool::~LootPool()
+void LootPool::clear()
 {
     entries.clear();
+    totalWeight = 0.0;
 }

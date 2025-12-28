@@ -18,20 +18,10 @@ void Graph::addVertex(const string &node)
 
 void Graph::addEdge(const string &from, const string &to, const double &weight)
 {
-    bool existsFrom = false, existsTo = false;
-
-    for (auto it = adjList.begin(); it != adjList.end(); ++it)
-    {
-        if (it->first == from)
-            existsFrom = true;
-        else if (it->first == to)
-            existsTo = true;
-    }
-
-    if (!existsFrom)
+    if (adjList.find(from) == adjList.end())
         addVertex(from);
     
-    if (!existsTo)
+    if (adjList.find(to) == adjList.end())
         addVertex(to);
 
     Edge *newEdge = new Edge{to, weight};
@@ -50,18 +40,10 @@ vector<string> Graph::shortestPath(const string &from, const string &to)
     double weight, newDist;
     vector<string> path;
 
-    for (auto it = adjList.begin(); it != adjList.end(); ++it)
-    {
-        if (it->first == from)
-            existsFrom = true;
-        else if (it->first == to)
-            existsTo = true;
-    }
-
-    if (!existsFrom)
+    if (adjList.find(from) == adjList.end())
         addVertex(from);
     
-    if (!existsTo)
+    if (adjList.find(to) == adjList.end())
         addVertex(to);
     
     for (auto it = adjList.begin(); it != adjList.end(); ++it)
