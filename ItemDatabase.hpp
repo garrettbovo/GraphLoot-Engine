@@ -21,7 +21,7 @@ class ItemDatabase
         Item *rollItem();
         Chest openChest();
         template <typename T>
-        void freeMem(vector<T *> &)
+        void freeMem(vector<T *> &vectDS)
         {
             for (int i = 0; i < vectDS.size(); i++)
             {

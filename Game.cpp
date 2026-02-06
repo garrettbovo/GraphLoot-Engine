@@ -46,7 +46,7 @@ void Game::printWorld() const
 
 bool Game::run(ItemDatabase &db)
 {
-    string input;
+    string input, destination;
     Chest chest;
     vector<string> neighbors, path;
 
@@ -58,15 +58,15 @@ bool Game::run(ItemDatabase &db)
     do
     {
         cout << "Input a drop spot: ";
-        getline(cin, input);
+        getline(cin, destination);
 
-        inputLocation(input);
+        inputLocation(destination);
 
-        if (!checkQuit(input))
+        if (!checkQuit(destination))
             return false;
-    } while (!world.hasLocation(input));
+    } while (!world.hasLocation(destination));
 
-    currentLoc = input;
+    currentLoc = destination;
 
     do
     {
@@ -78,53 +78,43 @@ bool Game::run(ItemDatabase &db)
             {
                 cout << "Would you like to loot a chest? (Yes/No): ";
                 getline(cin, input);
+                
+                inputLocation(input);
+            } while (input != "Yes" && input != "No");
 
-                input.erase(0, input.find_first_not_of(" \t\n\r"));
-                input.erase(input.find_last_not_of(" \t\n\r") + 1);
-
-                for (int i = 0; i < input.size(); i++)
-                    input[i] = tolower(input[i]);
-            } while (input != "yes" && input != "no");
-
-            if (input == "yes")
+            if (input == "Yes")
             {
                 chest = db.openChest();
                 world.eraseChest(currentLoc);
             }
 
-            else if (!checkQuit(input))
+            else if (!checkQuit(destination))
                     return false;
         }
 
-        cout << "You are at " << currentLoc << "Where would you like to go? (or type 'neighbors')";
-        getline(cin, input);
-
-        input.erase(0, input.find_first_not_of(" \t\n\r"));
-        input.erase(input.find_last_not_of(" \t\n\r") + 1);
-
-        for (int i = 0; i < input.size(); i++)
-            input[i] = tolower(input[i]);
-        
-        if (input == "neighbors")
+        do
         {
-            neighbors = world.getNeighbors(currentLoc);
+            cout << "You are at " << currentLoc << "Where would you like to go? (or type 'neighbors')";
+            getline(cin, destination);
 
-            for (int i = 0; i < neighbors.size(); i++)
-                cout << "> " << neighbors[i] << endl;
-        }
+            inputLocation(destination);
+            
+            if (destination == "Neighbors")
+            {
+                neighbors = world.getNeighbors(currentLoc);
 
-        else
-        {
-            cout << "Invalid location, try again." << endl;
-            continue;
-        }
+                for (int i = 0; i < neighbors.size(); i++)
+                    cout << "> " << neighbors[i] << endl;
+                
+                continue;
+            }
 
-        inputLocation(input);
-        
-        if (!checkQuit(input))
-            return false;
+            else
+                cout << "Invalid location, try again." << endl;
+        } while (!world.hasLocation(destination));
 
-        path = world.getShortestPath(currentLoc, input);
+
+        path = world.getShortestPath(currentLoc, destination);
 
         if (path.empty())
             cout << "No route exists" << endl;
@@ -134,23 +124,20 @@ bool Game::run(ItemDatabase &db)
         for (int i = 0; i < path.size(); i++)
             cout << path[i] << " -> ";
         
-        cout << "\nTravel this route? (Yes/No): ";
-        getline(cin, input);
-
-        input.erase(0, input.find_first_not_of(" \t\n\r"));
-        input.erase(input.find_last_not_of(" \t\n\r") + 1);
-
-        for (int i = 0; i < input.size(); i++)
-            input[i] = tolower(input[i]);
-        
-        if (input == "yes")
+        do
         {
-            chest = db.openChest();
-            world.eraseChest(currentLoc);
-        }
+            cout << "\nTravel this route? (Yes/No): ";
+            getline(cin, input);
 
-        else if (!checkQuit(input))
-            return false;
+            inputLocation(input);
+            
+            if (input == "Yes")
+                currentLoc = destination;
+
+            else if (!checkQuit(input))
+                return false;
+        } while (input != "Yes" && input != "No");
     } while (1);
-    
+
+    return true;
 }

@@ -7,13 +7,13 @@
 
 enum RarityWeight
 {
-    Common = 40,
-    Uncommon = 30,
-    Rare = 15,
-    Epic = 8,
-    Legendary = 4,
-    Mythic = 1,
-    Exotic = 1
+    WeightCommon = 40,
+    WeightUncommon = 30,
+    WeightRare = 15,
+    WeightEpic = 8,
+    WeightLegendary = 4,
+    WeightMythic = 1,
+    WeightExotic = 1
 };
 
 enum CategoryWeight

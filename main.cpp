@@ -16,7 +16,7 @@ int main()
     data.setLootPool();
     world = buildWorld(data);
     game.setWorld(world);
-    while (game.run(data));
+    game.run(data);
 
     return 0;
 }

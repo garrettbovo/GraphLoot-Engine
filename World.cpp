@@ -31,6 +31,9 @@ vector<string> World::getNeighbors(const string &location) const
     vector<string> list;
     auto it = graph.getAdjList().find(location);
 
+    if (it == graph.getAdjList().end())
+        return list;
+
     if (this->hasLocation(location))
         for (int i = 0; i < it->second.size(); i++)
             list.push_back(it->second[i].to);

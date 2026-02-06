@@ -24,27 +24,20 @@ void Graph::addEdge(const string &from, const string &to, const double &weight)
     if (adjList.find(to) == adjList.end())
         addVertex(to);
 
-    Edge *newEdge = new Edge{to, weight};
-    Edge *newEdge2 = new Edge{from, weight};
-
-    adjList[from].push_back(*newEdge);
-    adjList[to].push_back(*newEdge2);
+    adjList[from].push_back({to, weight});
+    adjList[to].push_back({from, weight});
 }
 
 vector<string> Graph::shortestPath(const string &from, const string &to)
 {
     unordered_map<string, double> dist;
     unordered_map<string, string> prev;
-    bool existsFrom = false, existsTo = false;
     string neighbor, current;
     double weight, newDist;
     vector<string> path;
 
-    if (adjList.find(from) == adjList.end())
-        addVertex(from);
-    
-    if (adjList.find(to) == adjList.end())
-        addVertex(to);
+    if (adjList.find(from) == adjList.end() || adjList.find(to) == adjList.end())
+        return {};
     
     for (auto it = adjList.begin(); it != adjList.end(); ++it)
     {
@@ -89,6 +82,8 @@ vector<string> Graph::shortestPath(const string &from, const string &to)
 
     if (dist[to] == std::numeric_limits<double>::infinity())
         return {};
+    
+    current = to;
 
     while (current != from) 
     {
