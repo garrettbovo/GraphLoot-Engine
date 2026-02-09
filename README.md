@@ -11,6 +11,16 @@
     This project demonstrates real-world application of <strong>Dijkstra’s algorithm</strong>,
     structured game logic, CSV-driven data systems, and modern C++ programming practices.
   </p>
+
+  <h2>How to Run the Code</h2>
+<p>
+  You can run this project directly in your browser without creating an account:
+  <a href="https://onlinegdb.com/Ay8gTHQf_" target="_blank">
+    👉 Click here to open on OnlineGDB
+  </a>
+</p>
+
+<p>Enjoy exploring the program!</p>
 </header>
 
 <details>
