@@ -4,6 +4,7 @@
 #include "World.hpp"
 #include "ItemDatabase.hpp"
 
+//function for building the Fortnite world
 World buildWorld(ItemDatabase &);
 
 #endif

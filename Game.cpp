@@ -4,139 +4,234 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <thread>
+#include <chrono>
+
 using namespace std;
 
+//method for printing the game's world
 void Game::printWorld() const
 {
     cout << R"(
 
-                               ^^^^^^^^^^^^^^^^^
-                               |  BRUTAL BASTION |
-                               ^^^^^^^^^^^^^^^^^
-                                        |
-                                      (4.0)
-                                        |
-        ^^^^^^^^^^^^^^^^^        =====================        ^^^^^^^^^^^^^^^^^
-        |  LONELY LABS   |=======(5.0)  ANVIL SQUARE  (3.0)=======| SLAPPY SHORES |
-        ^^^^^^^^^^^^^^^^^        =====================        ^^^^^^^^^^^^^^^^^
-                                        |
-                                      (3.5)
-                                        |
-                               ###################
-                               |    MEGA CITY    |
-                               ###################
-                                  |           |
-                                (2.0)       (5.5)
-                                  |           |
-        ~~~~~~~~~~~~~~~~      ###################      ...............
-        | SLAPPY SHORES |=====(4.0) FAULTY SPLITS (3.0)====| FRENZY FIELDS |
-        ~~~~~~~~~~~~~~~~      ###################      ...............
-                                            |
-                                          (2.5)
-                                            |
-                               vvvvvvvvvvvvvvvvvvvvv
-                               |  SHATTERED SLABS   |
-                               vvvvvvvvvvvvvvvvvvvvv
+    ====================== WORLD GRAPH ======================
 
-)";
+            [Lonely Labs] -----------------
+            |                             |
+            5.0                          6.5
+            |                             |
+            |                             |
+        [Anvil Square] ---- 3.5 ---- [Mega City]
+            |   \                    /    |
+          4.0    3.0              2.0     | 5.5
+            |       \            /        |
+            |        \         /          |
+    [Brutal Bastion] [Slappy Shores]   [Frenzy Fields] ----
+                            |                      |      |     
+                            4.0                    |      |  
+                            |                      |      |       
+                            |                      |      |       
+                        [Faulty Splits] ---- 3.0 ---      |
+                            |                             |
+                            2.5                          4.5
+                            |                             |
+                            |                             |
+                    [Shattered Slabs] ---------------------
 
+    =========================================================
 
+    Legend:
+    - Lines = direct connections
+    - Numbers = edge weights
+    - Graph is undirected (travel both ways)
+    - Only edges listed in buildWorld() are shown
 
+    )";
 }
 
+//method for printing the game's menu
+void Game::printMenu() const
+{
+    cout << "\n========================================\n";
+    cout << "        FORTNITE: GRAPH LOOT ENGINE\n";
+    cout << "========================================\n";
+    cout << "Current Location: " << currentLoc << "\n\n";
+
+    cout << "Choose an action:\n";
+    cout << "  1) Travel to another location\n";
+    cout << "  2) Loot a chest at this location\n";
+    cout << "  3) Show map\n";
+    cout << "  4) Quit game\n\n";
+
+    cout << "Enter your choice: ";
+}
+
+//method for running the game
 bool Game::run(ItemDatabase &db)
 {
+    //variable declarations
     string input, destination;
     Chest chest;
     vector<string> neighbors, path;
+    int intInput;
 
+    //welcoming the user to the game and printing the map
     cout << "WELCOME TO THE BATTLE BUS" << endl;
-    cout << "Input \"QUIT\" to terminate the game." << endl;
-
+    cout << "Input \"QUIT\" to terminate the game.";
     this->printWorld();
 
+    //loop which iterates until the user enters a valid drop location
     do
     {
-        cout << "Input a drop spot: ";
+        cout << "Select a drop spot: ";
         getline(cin, destination);
 
         inputLocation(destination);
 
         if (!checkQuit(destination))
             return false;
+
+        //printing an error message if the user does not enter a valid drop location
+        if (!world.hasLocation(destination))
+            cout << "\nInvalid drop location, try again.\n" << endl;
     } while (!world.hasLocation(destination));
 
+    //setting the current location to the user's drop location
     currentLoc = destination;
 
+    //loop which iterates until the user quits the game
     do
     {
-        this->printWorld();
+        //printing the menu and getting the user's menu selection
+        this->printMenu();
+        getline(cin, input);
 
-        if (world.hasChest(currentLoc))
+        //checking to make sure the user enters an integer
+        try
         {
-            do
-            {
-                cout << "Would you like to loot a chest? (Yes/No): ";
-                getline(cin, input);
-                
-                inputLocation(input);
-            } while (input != "Yes" && input != "No");
-
-            if (input == "Yes")
-            {
-                chest = db.openChest();
-                world.eraseChest(currentLoc);
-            }
-
-            else if (!checkQuit(destination))
-                    return false;
+            intInput = stoi(input);
+        }
+        catch(const std::exception& e)
+        {
+            cout << "Invalid entry, try again." << endl;
+            continue;
         }
 
-        do
+        //switch statement outlining the course of the four menu options
+        switch (intInput)
         {
-            cout << "You are at " << currentLoc << "Where would you like to go? (or type 'neighbors')";
-            getline(cin, destination);
+            //scenario if the user wants to travel to a POI
+            case 1:
+                cout << "\nWhere would you like to go? (or type 'neighbors' to see what is close by): ";
+                getline(cin, destination);
 
-            inputLocation(destination);
-            
-            if (destination == "Neighbors")
-            {
-                neighbors = world.getNeighbors(currentLoc);
+                inputLocation(destination);
+                    
+                //scenario if the user wants to see neighboring POIs
+                if (destination == "Neighbors")
+                {
+                    neighbors = world.getNeighbors(currentLoc);
 
-                for (int i = 0; i < neighbors.size(); i++)
-                    cout << "> " << neighbors[i] << endl;
+                    //looping through the neighbors in the world and printing them to the screen
+                    for (int i = 0; i < neighbors.size(); i++)
+                        cout << "> " << neighbors[i] << endl;
+                        
+                    continue;
+                }
+
+                //if the user did not want to see the neighbors and also input a field that not a POI, they are thrown an error message
+                else if (!world.hasLocation(destination))
+                {
+                    cout << "Invalid location, try again." << endl;
+                    continue;
+                }
                 
-                continue;
-            }
+                //the vector path from the current location to the destination the user wants to go to is instantiated with the shortest path to the destination POI
+                path = world.getShortestPath(currentLoc, destination);
 
-            else
-                cout << "Invalid location, try again." << endl;
-        } while (!world.hasLocation(destination));
+                //checking if the path is empty to throw an error
+                if (path.empty())
+                {
+                    cout << "No route exists to that destination.\n";
+                    break;
+                }
+                    
+                //displaying the fastest route to the destination path using a loop through the vector
+                cout << "\nFastest route:" << endl;
 
+                for (int i = 0; i < path.size(); i++)
+                {
+                    if (i + 1 != path.size())
+                        cout << path[i] << " -> ";
+                    else
+                        cout << path[i];
+                }
+                
+                //looping until the user decides to travel that route or to not take that route while remaining at the current POI
+                do
+                {
+                    cout << "\nTravel this route? (Yes/No): ";
+                    getline(cin, input);
 
-        path = world.getShortestPath(currentLoc, destination);
+                    inputLocation(input);
+                        
+                    //if the user does want to travel to the destination POI, a slowed message will show how the user travels to each location in the vector path until the destination is reached
+                    if (input == "Yes")
+                    {
+                        cout << "\nTraveling to " << destination << "...\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(700));
 
-        if (path.empty())
-            cout << "No route exists" << endl;
-        
-        cout << "Fastest route:" << endl;
+                        for (int i = 1; i < path.size(); i++)
+                        {
+                            cout << "\n→ Traveling from " << path[i - 1]
+                                << " to " << path[i] << "...\n";
 
-        for (int i = 0; i < path.size(); i++)
-            cout << path[i] << " -> ";
-        
-        do
-        {
-            cout << "\nTravel this route? (Yes/No): ";
-            getline(cin, input);
+                            std::this_thread::sleep_for(std::chrono::milliseconds(800));
 
-            inputLocation(input);
-            
-            if (input == "Yes")
-                currentLoc = destination;
+                            currentLoc = path[i];
+                            cout << "✔ Arrived at " << currentLoc << "!\n";
+                        }
 
-            else if (!checkQuit(input))
-                return false;
-        } while (input != "Yes" && input != "No");
+                        cout << "\nYou have reached your destination.\n";
+                    }
+
+                    //checking if the user typed "quit"; if so, the game is terminated
+                    else if (!checkQuit(input))
+                        return false;
+                } while (input != "Yes" && input != "No");
+                break;
+
+                //scenario if the user wants to loot a chest at the current POI
+                case 2:
+                    //checking if the chest at the current POI has not been looted yet
+                    if (world.hasChest(currentLoc))
+                    {
+                        //opening the chest at the current POI
+                        chest = db.openChest();
+
+                        //displaying the chests contents in a slowed manner
+                        std::this_thread::sleep_for(std::chrono::milliseconds(700));
+                        chest.displayChest();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(700));
+                        
+                        //erasing the chest from the POI
+                        world.eraseChest(currentLoc);
+                    }
+
+                    //message showing there are no more chests at the POI if the chest has already been looted
+                    else
+                        cout << "There are no more chests at this location. You must travel to a different location if you would like to loot." << endl;
+                    break;
+                
+                //scenario printing the world's map to the screen
+                case 3:
+                    this->printWorld();
+                    break;
+                
+                //scenario to quit the game per the user's request
+                case 4: 
+                    return false;
+        }
     } while (1);
 
     return true;

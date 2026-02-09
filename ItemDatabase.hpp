@@ -11,15 +11,24 @@
 
 class ItemDatabase
 {
+    //private member attributes
     LootPool weaponPool, itemPool;
     vector<Item *> allItems;
 
     public:
+        //default constructor
+        ItemDatabase() {}
+        //setting the loot pool
         void setLootPool();
+        //reading the information from the CSV
         int readCSV();
+        //rolling a weapon
         Weapon *rollWeapon();
+        //rolling an item
         Item *rollItem();
+        //opening a chest
         Chest openChest();
+        //freeing vectors from memory regardless of data type
         template <typename T>
         void freeMem(vector<T *> &vectDS)
         {
@@ -31,6 +40,7 @@ class ItemDatabase
 
             vectDS.clear();
         }
+        //destructor
         ~ItemDatabase() { freeMem(allItems); }
 };
 

@@ -6,6 +6,42 @@
 #include <sstream>
 #include <string>
 
+type getType(const string &str)
+{
+    if (str == "Weapon") return Gun;
+    else if (str == "Consumable") return Consumable;
+    else if (str == "Ammo") return Bullet;
+    else if (str == "Throwable") return Throwable;
+    else if (str == "Utility") return Utility;
+    
+    return Gun;
+}
+
+rarity getRarity(const string &str)
+{
+    if (str == "Common") return Common;
+    else if (str == "Uncommon") return Uncommon;
+    else if (str == "Rare") return Rare;
+    else if (str == "Epic") return Epic;
+    else if (str == "Legendary") return Legendary;
+    else if (str == "Mythic") return Mythic;
+    else if (str == "Exotic") return Exotic;
+
+    return Common;
+}
+
+bullet getBullet(const string &str)
+{
+    if (str == "Light") return Light;
+    else if (str == "Medium") return Medium;
+    else if (str == "Heavy") return Heavy;
+    else if (str == "Shells") return Shells;
+    else if (str == "Rockets") return Rockets;
+    else if (str == "None") return Light;
+
+    return Light;
+}
+
 int ItemDatabase::readCSV()
 {
     ifstream file;
@@ -26,6 +62,9 @@ int ItemDatabase::readCSV()
 
     while (getline(file, line))
     {
+        if (line.find_first_not_of(" \t\r\n") == string::npos)
+            continue;
+        
         stringstream ss(line);
 
         if (i++ == 0)
@@ -36,21 +75,21 @@ int ItemDatabase::readCSV()
 
         getline(ss, name, ',');
 
+        getline(ss, strType, ',');
+        typeID = getType(strType);
+
         getline(ss, strRarityID, ',');
-        rarityID = static_cast<rarity>(stoi(strRarityID));
+        rarityID = getRarity(strRarityID);
         
         getline(ss, description, ',');
 
-        getline(ss, strType, ',');
-        typeID = static_cast<type>(stoi(strType));
-
-        if (!typeID)
+        if (typeID != Gun)
             node = new Item(ID, rarityID, name, description, typeID);
             
         else
         {
             getline(ss, strAmmo, ',');
-            ammo = static_cast<bullet>(stoi(strAmmo));
+            ammo = getBullet(strAmmo);
 
             getline(ss, strDamage, ',');
             damage = stod(strDamage);
@@ -86,14 +125,14 @@ void ItemDatabase::setLootPool()
     {
         switch (allItems[i]->getRarityID())
         {
-            case 0: rarityWeight = Common; break;
-            case 1: rarityWeight = Uncommon; break;
-            case 2: rarityWeight = Rare; break;
-            case 3: rarityWeight = Epic; break;
-            case 4: rarityWeight = Legendary; break;
-            case 5: rarityWeight = Mythic; break;
-            case 6: rarityWeight = Exotic; break;
-            default: rarityWeight = Common; break;
+            case 0: rarityWeight = WeightCommon; break;
+            case 1: rarityWeight = WeightUncommon; break;
+            case 2: rarityWeight = WeightRare; break;
+            case 3: rarityWeight = WeightEpic; break;
+            case 4: rarityWeight = WeightLegendary; break;
+            case 5: rarityWeight = WeightMythic; break;
+            case 6: rarityWeight = WeightExotic; break;
+            default: rarityWeight = WeightCommon; break;
         }
 
         if (allItems[i]->getType() == Gun)
@@ -133,13 +172,16 @@ Weapon *ItemDatabase::rollWeapon()
     return static_cast<Weapon *>(weaponPool.roll());
 }
 
+//
 Item *ItemDatabase::rollItem()
 {
     return itemPool.roll();
 }
 
+//method for creating a chest to be opened
 Chest ItemDatabase::openChest()
 {
+    //variable declarations and randomly rolling loot pool entries to add a weapon and item to the chest
     Chest newNode;
     Weapon *rollW = rollWeapon();
     Item *rollI = rollItem();

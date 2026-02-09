@@ -8,6 +8,7 @@
 
 class Inventory
 {
+    
     static const int MAX_SLOTS = 5;
     unordered_map<bullet, int> ammo;
     vector<Item *> items;

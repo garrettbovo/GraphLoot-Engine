@@ -1,31 +1,37 @@
 #include "World.hpp"
 #include "WorldGraph.hpp"
 
+//method for adding POI to the map
 void World::addDrop(const string &vertex)
 {
     graph.addVertex(vertex);
 }
 
+//method for adding an edge between two vertices
 void World::addConnection(const string &vertexA, const string &vertexB, const double &weight)
 {
     graph.addEdge(vertexA, vertexB, weight);
 }
 
+//method for adding a chest to the given POI
 void World::addChest(const string &location, const Chest &chest)
 {
     chests[location] = chest;
 }
 
+//method for verifying if the given POI has an unlooted chest
 bool World::hasChest(const string &location) const
 {
     return chests.find(location) != chests.end();
 }
 
+//method for verifying if the given string is a POI on the map
 bool World::hasLocation(const string &location) const
 {
     return graph.getAdjList().find(location) != graph.getAdjList().end();
 }
 
+//method for returning a vector of POI locations that are neighbors to a given POI
 vector<string> World::getNeighbors(const string &location) const
 {
     vector<string> list;
@@ -41,11 +47,13 @@ vector<string> World::getNeighbors(const string &location) const
     return list;
 }
 
+//method for finding the shortest path from one vertex to another
 vector<string> World::getShortestPath(const string &from, const string &to)
 {
     return graph.shortestPath(from, to);
 }
 
+//getter returning the chest at the given POI
 Chest &World::getChest(const string &location)
 {
     auto it = chests.find(location);
@@ -53,6 +61,7 @@ Chest &World::getChest(const string &location)
     return it->second;
 }
 
+//method for erasing the chest at the specified location
 void World::eraseChest(const string &location)
 {
     chests.erase(location);

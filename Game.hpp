@@ -8,17 +8,28 @@
 
 class Game
 {
+    //private member attributes
     World world;
     string currentLoc;
 
     public:
+        //default constructor
         Game() {}
+        //setter assigning the game's map
         void setWorld(World wID) { world = wID; }
+        //getter returning the game's map
         World getWorld() const { return world; }
+        //setter assigning the player's current location
         void setCurrentLoc(string lID) { currentLoc = lID; }
+        //getter returning the player's current location
         string getCurrentLoc() const { return currentLoc; }
+        //method for running the game
         bool run(ItemDatabase &);
+        //printing the game's world
         void printWorld() const;
+        //printing the game's menu
+        void printMenu() const;
+        //default destructor
         ~Game() {}
 };
 
