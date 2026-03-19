@@ -55,6 +55,8 @@ string rarityToString(const rarity &r)
         case Mythic: return "Mythic";
         case Exotic: return "Exotic";
     }
+
+    return "Unknown";
 }
 
 //converting a weapon's bullet type into a string
@@ -68,6 +70,8 @@ string bulletToString(const bullet &b)
         case Shells: return "Shells";
         case Rockets: return "Rockets";
     }
+
+    return "Unknown";
 }
 
 //converting an item's type into a string
@@ -81,4 +85,26 @@ string typeToString(const type &t)
         case Throwable: return "Throwable";
         case Utility: return "Utility";
     }
+
+    return "Unknown";
+}
+
+//converting the desired argv value into a string
+string getArgValue(const int &argc, const char *argv[], const string &key)
+{
+    //variable declaration to temporarily store command line argument
+    string argString;
+
+    //for loop iterating to read how many times the program should execute
+    for (int i = 1; i < argc; i++)
+    {
+        //storing the current command line argument into a string
+        argString = argv[i];
+
+        //checking if the current command line argument is "--runs". if that is the case, the next command line argument is the number of times the program will run
+        if (argString == key && i + 1 < argc)
+            return argv[i + 1];
+    }
+
+    return "";
 }

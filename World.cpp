@@ -66,3 +66,16 @@ void World::eraseChest(const string &location)
 {
     chests.erase(location);
 }
+
+//method for returning a vector of all named locations on the Fortnite map
+vector<string> World::getAllDrops() const
+{
+    //variable declaration
+    vector<string> drops;
+    
+    //for loop which iterates over each first item in the adjacency list and adds it to drops which is a vector storing the unique named locations
+    for (auto it = graph.getAdjList().begin(); it != graph.getAdjList().end(); ++it)
+        drops.push_back(it->first);
+    
+    return drops;
+}

@@ -2,27 +2,39 @@
 #include "World.hpp"
 #include "FortniteWorld.hpp"
 #include "Game.hpp"
+#include "GameUtils.hpp"
 
 #include <iostream>
+#include <string>
 using namespace std;
 
-int main()
+/*HOW TO RUN THE PROGRAM
+------------------------------
+g++ -std=c++17 *.cpp -o engine
+./engine
+------------------------------
+*/
+
+int main(int argc, char *argv[])
 {
-    //variable declarations for database, world, and game
+    //variable declarations for database, world, game, and for runs which stores how many times the program should run
     ItemDatabase data;
     World world;
     Game game;
+    int runs = stoi(getArgValue(argc, argv, "--runs"));
 
     //reading loot information from CSV file
     data.readCSV();
     //initializing the loot pool from the vector of items
     data.setLootPool();
     //building the Fortnite map
-    world = buildWorld(data);
+    world = buildWorld(argc, argv, data);
     //assign the created world to the current game
     game.setWorld(world);
+
     //running the game
-    game.run(data);
+    if (runs == 1)
+        game.run(data);
 
     return 0;
 }

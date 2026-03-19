@@ -12,10 +12,12 @@ void inputLocation(string &);
 //checks if the user's input ever is "quit"
 bool checkQuit(string);
 //returns an item's rarity into a string
-string rarityToString(const rarity &r);
+string rarityToString(const rarity &);
 //converts an item's bullet type into a string
-string bulletToString(const bullet &b);
+string bulletToString(const bullet &);
 //converts an item's category type into a string
-string typeToString(const type &t);
+string typeToString(const type &);
+//converts the desired argv value into a stirng
+string getArgValue(const int &, const char *[], const string &);
 
 #endif

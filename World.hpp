@@ -36,6 +36,8 @@ class World
         Chest &getChest(const string &);
         //erasing the method at the given POI
         void eraseChest(const string &);
+        //returns a vector of all named locations on the map
+        vector<string> getAllDrops() const;
         //default destructor
         ~World() {}
 };
