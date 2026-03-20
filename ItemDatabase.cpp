@@ -1,6 +1,7 @@
 #include "ItemDatabase.hpp"
 #include "LootPool.hpp"
 #include "Chest.hpp"
+#include "GameUtils.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -46,11 +47,11 @@ bullet getBullet(const string &str)
 }
 
 //method reading in the items' information from the CSV
-int ItemDatabase::readCSV()
+int ItemDatabase::readCSV(const int &argc, char *argv[])
 {
     //variable declarations and initializations
     ifstream file;
-    string strID, strRarityID, line, name, description, strAmmo, strMagSize, strDamage, strFireRate, strReloadTime, strType;
+    string strID, strRarityID, line, name, description, strAmmo, strMagSize, strDamage, strFireRate, strReloadTime, strType, strCLI;
     int ID, magSize, i = 0;
     rarity rarityID;
     bullet ammo;
@@ -58,14 +59,22 @@ int ItemDatabase::readCSV()
     type typeID;
     Item *node;
 
+    strCLI = getArgValue(argc, argv, "--loot");
+
+    if (strCLI.empty())
+    {
+        cerr << "No map file provided." << endl;
+        exit(1);
+    }
+
     //opening the file
-    file.open("Items.csv");
+    file.open(strCLI);
 
     //checking if the file opened successfully; otherwise, the program will terminate
     if (!file.is_open())
     {
         cerr << "Unable to open file." << endl;
-        return 1;
+        exit(1);
     }
 
     //reading each line of the file

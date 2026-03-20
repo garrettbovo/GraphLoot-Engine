@@ -21,7 +21,7 @@ class ItemDatabase
         //setting the loot pool
         void setLootPool();
         //reading the information from the CSV
-        int readCSV();
+        int readCSV(const int &, char *[]);
         //rolling a weapon
         Weapon *rollWeapon();
         //rolling an item

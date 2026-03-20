@@ -90,7 +90,7 @@ string typeToString(const type &t)
 }
 
 //converting the desired argv value into a string
-string getArgValue(const int &argc, const char *argv[], const string &key)
+string getArgValue(const int &argc, char* argv[], const string &key)
 {
     //variable declaration to temporarily store command line argument
     string argString;

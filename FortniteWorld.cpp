@@ -7,7 +7,7 @@
 #include <string>
 
 //function for building the Fortnite map
-World buildWorld(const int &argc, const char *argv[], ItemDatabase &db)
+World buildWorld(const int &argc, char *argv[], ItemDatabase &db)
 {
     //variable declarations
     World world;

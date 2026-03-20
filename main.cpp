@@ -21,10 +21,14 @@ int main(int argc, char *argv[])
     ItemDatabase data;
     World world;
     Game game;
-    int runs = stoi(getArgValue(argc, argv, "--runs"));
+    int runs = 1;
+    string strRuns = getArgValue(argc, argv, "--runs");
+    
+    if (strRuns != "")
+        runs = stoi(strRuns);
 
     //reading loot information from CSV file
-    data.readCSV();
+    data.readCSV(argc, argv);
     //initializing the loot pool from the vector of items
     data.setLootPool();
     //building the Fortnite map

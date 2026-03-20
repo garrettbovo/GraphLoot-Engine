@@ -18,6 +18,6 @@ string bulletToString(const bullet &);
 //converts an item's category type into a string
 string typeToString(const type &);
 //converts the desired argv value into a stirng
-string getArgValue(const int &, const char *[], const string &);
+string getArgValue(const int &, char *[], const string &);
 
 #endif
