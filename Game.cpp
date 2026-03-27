@@ -183,13 +183,13 @@ bool Game::run(ItemDatabase &db)
 
                         for (int i = 1; i < path.size(); i++)
                         {
-                            cout << "\n→ Traveling from " << path[i - 1]
+                            cout << "\nTraveling from " << path[i - 1]
                                 << " to " << path[i] << "...\n";
 
                             std::this_thread::sleep_for(std::chrono::milliseconds(800));
 
                             currentLoc = path[i];
-                            cout << "✔ Arrived at " << currentLoc << "!\n";
+                            cout << "Arrived at " << currentLoc << "!\n";
                         }
 
                         cout << "\nYou have reached your destination.\n";
@@ -235,4 +235,15 @@ bool Game::run(ItemDatabase &db)
     } while (1);
 
     return true;
+}
+
+void Game::simulate(ItemDatabase &db)
+{
+    for (int i = 0; i < STEPS; i++)
+    {
+        currentLoc = world.randomPOI();
+
+        if (world.hasChest(currentLoc))
+            
+    }
 }

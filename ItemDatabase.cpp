@@ -63,7 +63,7 @@ int ItemDatabase::readCSV(const int &argc, char *argv[])
 
     if (strCLI.empty())
     {
-        cerr << "No map file provided." << endl;
+        cerr << "No loot file provided." << endl;
         exit(1);
     }
 

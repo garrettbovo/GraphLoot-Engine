@@ -93,7 +93,7 @@ string typeToString(const type &t)
 string getArgValue(const int &argc, char* argv[], const string &key)
 {
     //variable declaration to temporarily store command line argument
-    string argString;
+    string argString, returnStr = "";
 
     //for loop iterating to read how many times the program should execute
     for (int i = 1; i < argc; i++)
@@ -103,8 +103,8 @@ string getArgValue(const int &argc, char* argv[], const string &key)
 
         //checking if the current command line argument is "--runs". if that is the case, the next command line argument is the number of times the program will run
         if (argString == key && i + 1 < argc)
-            return argv[i + 1];
+            returnStr = argv[i + 1];
     }
 
-    return "";
+    return returnStr;
 }

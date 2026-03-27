@@ -79,3 +79,10 @@ vector<string> World::getAllDrops() const
     
     return drops;
 }
+
+string World::randomPOI() const
+{
+    vector<string> allPOIs = this->getAllDrops();
+
+    return allPOIs[rand() % allPOIs.size()];
+}

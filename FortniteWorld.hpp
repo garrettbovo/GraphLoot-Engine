@@ -5,6 +5,6 @@
 #include "ItemDatabase.hpp"
 
 //function for building the Fortnite world
-World buildWorld(const int &, const char *[], ItemDatabase &);
+World buildWorld(const int &, char *[], ItemDatabase &);
 
 #endif

@@ -5,12 +5,17 @@
 #include "ItemDatabase.hpp"
 
 #include <string>
+#include <unordered_map>
+
+//number of times the simulator should traverse the map in each run of the simulation
+#define STEPS 5
 
 class Game
 {
     //private member attributes
     World world;
     string currentLoc;
+    unordered_map<string, int> rarityCounts, typeCounts;
 
     public:
         //default constructor
@@ -25,6 +30,8 @@ class Game
         string getCurrentLoc() const { return currentLoc; }
         //method for running the game
         bool run(ItemDatabase &);
+        //method for simulation
+        void simulate(ItemDatabase &);
         //printing the game's world
         void printWorld() const;
         //printing the game's menu

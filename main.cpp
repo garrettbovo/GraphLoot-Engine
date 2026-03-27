@@ -6,6 +6,8 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 /*HOW TO RUN THE PROGRAM
@@ -17,6 +19,9 @@ g++ -std=c++17 *.cpp -o engine
 
 int main(int argc, char *argv[])
 {
+    //seed for random number generation
+    srand(time(0));
+
     //variable declarations for database, world, game, and for runs which stores how many times the program should run
     ItemDatabase data;
     World world;
@@ -31,10 +36,8 @@ int main(int argc, char *argv[])
     data.readCSV(argc, argv);
     //initializing the loot pool from the vector of items
     data.setLootPool();
-    //building the Fortnite map
-    world = buildWorld(argc, argv, data);
     //assign the created world to the current game
-    game.setWorld(world);
+    game.setWorld(buildWorld(argc, argv, data));
 
     //running the game
     if (runs == 1)
