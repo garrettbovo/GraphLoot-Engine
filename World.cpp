@@ -80,6 +80,13 @@ vector<string> World::getAllDrops() const
     return drops;
 }
 
+string World::randomNeighbor(const string &current) const
+{
+    vector<string> allPOIs = this->getNeighbors(current);
+
+    return allPOIs[rand() % allPOIs.size()];
+}
+
 string World::randomPOI() const
 {
     vector<string> allPOIs = this->getAllDrops();

@@ -15,7 +15,8 @@ class Game
     //private member attributes
     World world;
     string currentLoc;
-    unordered_map<string, int> rarityCounts, typeCounts;
+    unordered_map<string, int> rarityCounts;
+    unordered_map<bullet, int> typeCounts;
 
     public:
         //default constructor
@@ -36,6 +37,8 @@ class Game
         void printWorld() const;
         //printing the game's menu
         void printMenu() const;
+        //method for writing simulation results to output file
+        void writeSimulation(const int &) const;
         //default destructor
         ~Game() {}
 };

@@ -141,6 +141,8 @@ int ItemDatabase::readCSV(const int &argc, char *argv[])
         allItems.push_back(node);
     }
 
+    file.close();
+
     return 0;
 }
 

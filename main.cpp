@@ -13,7 +13,7 @@ using namespace std;
 /*HOW TO RUN THE PROGRAM
 ------------------------------
 g++ -std=c++17 *.cpp -o engine
-./engine
+./engine --map DefaultMap.csv --loot Items.csv --runs 1000
 ------------------------------
 */
 
@@ -42,6 +42,14 @@ int main(int argc, char *argv[])
     //running the game
     if (runs == 1)
         game.run(data);
+    
+    else if (runs > 1)
+    {
+        for (int i = 0; i < runs; i++)
+            game.simulate(data);
+
+        game.writeSimulation(runs);
+    }
 
     return 0;
 }

@@ -38,6 +38,8 @@ class World
         void eraseChest(const string &);
         //returns a vector of all named locations on the map
         vector<string> getAllDrops() const;
+        //method for getting random neighbor POI selection
+        string randomNeighbor(const string &) const;
         //method for getting random POI selection
         string randomPOI() const;
         //default destructor

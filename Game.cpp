@@ -2,10 +2,12 @@
 #include "GameUtils.hpp"
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <iomanip>
 
 using namespace std;
 
@@ -239,11 +241,98 @@ bool Game::run(ItemDatabase &db)
 
 void Game::simulate(ItemDatabase &db)
 {
+    Chest chest;
+
+    currentLoc = world.randomPOI();
+
     for (int i = 0; i < STEPS; i++)
     {
-        currentLoc = world.randomPOI();
-
         if (world.hasChest(currentLoc))
-            
+        {
+            chest = db.openChest();
+
+            rarityCounts[rarityToString(chest.getWeapon()->getRarityID())]++;
+            typeCounts[chest.getWeapon()->getAmmo()]++;
+        }
+          
+        currentLoc = world.randomNeighbor(currentLoc);
     }
+}
+
+void Game::writeSimulation(const int &runs) const
+{
+    ofstream file("Results.txt");
+    int totalRolls = 0, count;
+    vector<string> rarityOrder = {"Common", "Uncommon", "Rare", "Epic", "Legendary"};
+    vector<bullet> gunOrder = {Medium, Shells, Light, Heavy};
+
+    if (!file.is_open())
+    {
+        cerr << "Failed to open file." << endl;
+        exit(0);
+    }
+
+    for (const auto &pair : rarityCounts)
+        totalRolls += pair.second;
+
+    file << "\n========================================\n";
+    file << "      GRAPH LOOT ENGINE RESULTS\n";
+    file << "========================================\n\n";
+
+    file << "Simulation Runs: " << runs << endl;
+    file << "Steps per Run: " << STEPS << endl;
+    file << "Total Loot Rolls: " << totalRolls << endl;
+
+    file << "\n----------------------------------------\n";
+    file << "Rarity Distribution\n";
+    file << "----------------------------------------\n";
+
+    file << fixed << setprecision(2);
+
+    for (int i = 0; i < rarityOrder.size(); i++)
+    {
+        auto it = rarityCounts.find(rarityOrder[i]);
+
+        if (it != rarityCounts.end())
+            count = rarityCounts.at(rarityOrder[i]);
+
+        file << left << setw(12) << rarityOrder[i] << ": " << setw(6) << double (count) / totalRolls * 100 << "% (" << count << ")" << endl;
+    }
+
+    file << "\n----------------------------------------\n";
+    file << "Weapon Type Distribution\n";
+    file << "----------------------------------------\n";
+
+    for (int i = 0; i < gunOrder.size(); i++)
+    {
+        auto it = typeCounts.find(gunOrder[i]);
+
+        if (it != typeCounts.end())
+            count = typeCounts.at(gunOrder[i]);
+
+        
+        switch (gunOrder[i])
+        {
+            case Medium: 
+                file << left << setw(12) << "AR";
+                break;
+            case Shells: 
+                file << left << setw(12) << "Shotgun";
+                break;
+            case Light: 
+                file << left << setw(12) << "SMG";
+                break;
+            case Heavy: 
+                file << left << setw(12) << "Heavy";
+                break;
+            default: 
+                break;
+        }
+        
+            file << ": " << setw(6) << double (count) / totalRolls * 100 << "% (" << count << ")" << endl;
+    }
+
+    file << "\n========================================\n";
+
+    file.close();
 }

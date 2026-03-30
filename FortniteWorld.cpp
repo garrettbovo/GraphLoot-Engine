@@ -60,6 +60,8 @@ World buildWorld(const int &argc, char *argv[], ItemDatabase &db)
 
     for (int i = 0; i < allDrops.size(); i++)
         world.addChest(allDrops[i], db.openChest());
+    
+    file.close();
 
     return world;
 }
