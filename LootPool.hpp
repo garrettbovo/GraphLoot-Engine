@@ -25,6 +25,8 @@ class LootPool
         double getTotalWeight() const { return totalWeight; }
         //method deleting the loot pool and reassigning the totalWeight to 0
         void clear();
+        //default destructor
+        ~LootPool() {}
 };
 
 #endif

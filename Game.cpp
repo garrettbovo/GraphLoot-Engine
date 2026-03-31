@@ -239,63 +239,89 @@ bool Game::run(ItemDatabase &db)
     return true;
 }
 
+//method for simulation
 void Game::simulate(ItemDatabase &db)
 {
+    //variable declaration
     Chest chest;
 
+    //assigning the simulation's location on the map to any named location
     currentLoc = world.randomPOI();
 
+    //moving along the map STEPS number of times
     for (int i = 0; i < STEPS; i++)
     {
+        //checking if the current named location has a chest that has not been looted
         if (world.hasChest(currentLoc))
         {
+            //opening the chest
             chest = db.openChest();
 
+            //adding the weapon's content to the two maps to be used in Results.txt
             rarityCounts[rarityToString(chest.getWeapon()->getRarityID())]++;
             typeCounts[chest.getWeapon()->getAmmo()]++;
+
+            //removing the chest from the map
+            world.eraseChest(currentLoc);
         }
-          
+        
+        //moving the simulation to a random POI that is a neighbor to the current POI
         currentLoc = world.randomNeighbor(currentLoc);
     }
 }
 
+//method for writing simulation results to output file
 void Game::writeSimulation(const int &runs) const
 {
+    //variable declarations and initializations
     ofstream file("Results.txt");
     int totalRolls = 0, count;
     vector<string> rarityOrder = {"Common", "Uncommon", "Rare", "Epic", "Legendary"};
     vector<bullet> gunOrder = {Medium, Shells, Light, Heavy};
 
+    //checking if the file opened correctly
     if (!file.is_open())
     {
         cerr << "Failed to open file." << endl;
         exit(0);
     }
 
+    //counting the total number of times the simulation opened chests
     for (const auto &pair : rarityCounts)
         totalRolls += pair.second;
 
+    //printing menu
     file << "\n========================================\n";
     file << "      GRAPH LOOT ENGINE RESULTS\n";
     file << "========================================\n\n";
 
+    //printing simulation statistics
     file << "Simulation Runs: " << runs << endl;
     file << "Steps per Run: " << STEPS << endl;
     file << "Total Loot Rolls: " << totalRolls << endl;
 
+    //printing menu
     file << "\n----------------------------------------\n";
     file << "Rarity Distribution\n";
     file << "----------------------------------------\n";
 
+    //setting decimal precision to two decimal places
     file << fixed << setprecision(2);
 
+    //iterating through all the instances of rarity types
     for (int i = 0; i < rarityOrder.size(); i++)
     {
+        //checking if the current key in the map is a rarity type found in the vector
         auto it = rarityCounts.find(rarityOrder[i]);
 
+        //checking if the iterator is pointing to a valid key; if so, get the value from the map
         if (it != rarityCounts.end())
             count = rarityCounts.at(rarityOrder[i]);
+        //otherwise, skip this iteration of the loop
+        else
+            continue;
 
+        //
         file << left << setw(12) << rarityOrder[i] << ": " << setw(6) << double (count) / totalRolls * 100 << "% (" << count << ")" << endl;
     }
 

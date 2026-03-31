@@ -29,6 +29,14 @@ class Game
         void setCurrentLoc(string lID) { currentLoc = lID; }
         //getter returning the player's current location
         string getCurrentLoc() const { return currentLoc; }
+        //setter assigning the number of weapon's based on rarity
+        void setRarityCounts(unordered_map<string, int> map) { rarityCounts = map; }
+        //getter returning the number of weapon's based on rarity
+        unordered_map<string, int> getRarityCounts() const { return rarityCounts; }
+        //setter assigning the number of weapon's based on rarity
+        void setTypeCounts(unordered_map<bullet, int> map) { typeCounts = map; }
+        //getter returning the number of weapon's based on rarity
+        unordered_map<bullet, int> getTypeCounts() const { return typeCounts; }
         //method for running the game
         bool run(ItemDatabase &);
         //method for simulation
