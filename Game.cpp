@@ -244,6 +244,7 @@ void Game::simulate(ItemDatabase &db)
 {
     //variable declaration
     Chest chest;
+    unordered_map<string, int> visited;
 
     //assigning the simulation's location on the map to any named location
     currentLoc = world.randomPOI();
@@ -261,6 +262,9 @@ void Game::simulate(ItemDatabase &db)
             rarityCounts[rarityToString(chest.getWeapon()->getRarityID())]++;
             typeCounts[chest.getWeapon()->getAmmo()]++;
 
+            //marking down which POI has just been visited to ensure a chest is added back to the location
+            visited[currentLoc] = 1;
+
             //removing the chest from the map
             world.eraseChest(currentLoc);
         }
@@ -268,6 +272,10 @@ void Game::simulate(ItemDatabase &db)
         //moving the simulation to a random POI that is a neighbor to the current POI
         currentLoc = world.randomNeighbor(currentLoc);
     }
+
+    //iterating through the map of visited POIs to add the chests back that were looted
+    for (auto it = visited.begin(); it != visited.end(); it++)
+        world.addChest(it->first, db.openChest());
 }
 
 //method for writing simulation results to output file
@@ -318,25 +326,27 @@ void Game::writeSimulation(const int &runs) const
         if (it != rarityCounts.end())
             count = rarityCounts.at(rarityOrder[i]);
         //otherwise, skip this iteration of the loop
-        else
-            continue;
 
-        //
+        //printing weapon rarity statistics to the file
         file << left << setw(12) << rarityOrder[i] << ": " << setw(6) << double (count) / totalRolls * 100 << "% (" << count << ")" << endl;
     }
 
+    //printing menu
     file << "\n----------------------------------------\n";
     file << "Weapon Type Distribution\n";
     file << "----------------------------------------\n";
 
+    //iterating through the different weapon types to print weapon statistics to the file
     for (int i = 0; i < gunOrder.size(); i++)
     {
+        //iterator to move through the weapon types map
         auto it = typeCounts.find(gunOrder[i]);
 
+        //checking to see if the simulation encountered the current weapon type; if so, tally the total number the weapon type was looted
         if (it != typeCounts.end())
             count = typeCounts.at(gunOrder[i]);
 
-        
+        //printing the weapon name based on the predefined order for weapon display noted in gunOrder vector
         switch (gunOrder[i])
         {
             case Medium: 
@@ -355,10 +365,13 @@ void Game::writeSimulation(const int &runs) const
                 break;
         }
         
-            file << ": " << setw(6) << double (count) / totalRolls * 100 << "% (" << count << ")" << endl;
+        //writing the weapon type statistics to the file
+        file << ": " << setw(6) << double (count) / totalRolls * 100 << "% (" << count << ")" << endl;
     }
 
+    //printing menu
     file << "\n========================================\n";
 
+    //closing the file
     file.close();
 }

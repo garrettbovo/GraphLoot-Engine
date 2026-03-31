@@ -16,8 +16,10 @@ World buildWorld(const int &argc, char *argv[], ItemDatabase &db)
     double weight;
     vector<string> allDrops;
 
+    //getting the name of the map from command line input
     mapFile = getArgValue(argc, argv, "--map");
 
+    //checking if the user input a map file; if the user did not, an error is thrown and the program terminates
     if (mapFile.empty())
     {
         cerr << "No map file provided." << endl;
@@ -37,6 +39,7 @@ World buildWorld(const int &argc, char *argv[], ItemDatabase &db)
     //reading each line of the file
     while (getline(file, line))
     {
+        //trimming whitespace
         if (line.find_first_not_of(" \t\r\n") == string::npos)
             continue;
         
@@ -56,11 +59,14 @@ World buildWorld(const int &argc, char *argv[], ItemDatabase &db)
         world.addConnection(vertexA, vertexB, weight);
     }
 
+    //creating a vector containing all the POIs in the world
     allDrops = world.getAllDrops();
 
+    //looping through each POI and adding a single chest to each location
     for (int i = 0; i < allDrops.size(); i++)
         world.addChest(allDrops[i], db.openChest());
     
+    //closing the file
     file.close();
 
     return world;

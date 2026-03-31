@@ -80,16 +80,22 @@ vector<string> World::getAllDrops() const
     return drops;
 }
 
+//method for generating a random neighboring POI in reference to the current POI given as an argument
 string World::randomNeighbor(const string &current) const
 {
+    //declaring and initializing a vector of all neighbors to the current POI
     vector<string> allPOIs = this->getNeighbors(current);
 
+    //randomly returning the name of the POI generated using random number generation
     return allPOIs[rand() % allPOIs.size()];
 }
 
+//method for generating a random drop POI at the beginning of the match
 string World::randomPOI() const
 {
+    //declaring and initializing a vector of all the named POIs
     vector<string> allPOIs = this->getAllDrops();
 
+    //randomly returning the name of the POI generated using random number generation
     return allPOIs[rand() % allPOIs.size()];
 }

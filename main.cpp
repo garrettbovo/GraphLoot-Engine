@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     //seed for random number generation
     srand(time(0));
 
-    //variable declarations for database, world, game, and for runs which stores how many times the program should run
+    //variable declarations and initializations for database, world, game, and runs/strRuns which stores how many times the program should run
     ItemDatabase data;
     World world;
     Game game;
@@ -39,15 +39,18 @@ int main(int argc, char *argv[])
     //assign the created world to the current game
     game.setWorld(buildWorld(argc, argv, data));
 
-    //running the game
+    //running the interactive version of the game if the user said to run the game one time
     if (runs == 1)
         game.run(data);
     
+    //running the simulated version of the game if the user said to run the game more than once
     else if (runs > 1)
     {
+        //running the simulation runs number of times
         for (int i = 0; i < runs; i++)
             game.simulate(data);
 
+        //writing the simulation results to an output file
         game.writeSimulation(runs);
     }
 
