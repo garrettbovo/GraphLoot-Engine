@@ -1,15 +1,9 @@
 <body>
 
 <header>
-  <h1>Fortnite Graph Loot Engine 🎮</h1>
+  <h1>Fortnite Graph Loot Engine</h1>
   <p>
-    The <strong>Fortnite Graph Loot Engine</strong> is a C++ console-based simulation that models
-    player movement and loot acquisition using <strong>graph theory, weighted shortest-path algorithms,
-    and modular object-oriented design</strong>.
-  </p>
-  <p>
-    This project demonstrates real-world application of <strong>Dijkstra’s algorithm</strong>,
-    structured game logic, CSV-driven data systems, and modern C++ programming practices.
+    A configurable C++ simulation engine that models traversal across a weighted graph while generating probabilistic loot outcomes. Designed to analyze loot distributions and traversal behavior using large-scale simulation.</strong>.
   </p>
 
   <h2>How to Run the Code</h2>
@@ -38,98 +32,178 @@
 </details>
 
 <section id="overview">
-  <h2>Overview 📋</h2>
+  <h2>Overview</h2>
   <p>
-    The Fortnite Graph Loot Engine represents Fortnite locations as vertices in a
-    <strong>weighted, undirected graph</strong>. Each connection between locations has a travel
-    cost, and the fastest route is computed dynamically based on player input.
-  </p>
-  <p>
-    Players can explore the map, inspect neighboring locations, travel across optimal routes,
-    and loot chests containing procedurally selected items.
-  </p>
-</section>
+    GraphLoot Engine simulates a player moving through a graph of Points of Interest (POIs), collecting loot at each step. The system supports both single-run execution and large-scale simulations to analyze statistical outcomes.
 
-<section id="features">
-  <h2>Key Features ⭐</h2>
+    The engine is fully data-driven:
+  </p>
   <ul>
-    <li><strong>Weighted World Graph:</strong> Locations are nodes; travel routes are weighted edges.</li>
-    <li><strong>Dijkstra’s Algorithm:</strong> Computes shortest paths with full route reconstruction.</li>
-    <li><strong>Dynamic Loot System:</strong> Items generated using rarity and category weighting.</li>
-    <li><strong>CSV-Based Data:</strong> Weapons and items loaded from external CSV files.</li>
-    <li><strong>Animated Travel:</strong> Step-by-step traversal with timed delays.</li>
-    <li><strong>Robust Input Handling:</strong> Defensive parsing and normalization of user input.</li>
+    <li>Map topology is loaded from CSV files</li>
+    <li>Loot tables are externally configurable</li>
+    <li>Runtime behavior is controlled via CLI arguments</li>
   </ul>
 </section>
 
+<section id="features">
+  <h2>Features</h2>
+  <div class="section">
+  <h2>Features</h2>
+
+<li> <strong>Data-Driven Design</strong> <ul> <li>Map and loot systems loaded from CSV files</li> <li>No hardcoded game data</li> </ul> </li> <li> <strong>Simulation Engine</strong> <ul> <li>Supports large-scale runs (e.g., 1,000,000+ simulations)</li> <li>Fixed-step traversal model</li> <li>Interactive and simulation modes</li> </ul> </li> <li> <strong>Statistical Analysis</strong> <ul> <li>Rarity and weapon type distribution tracking</li> <li>Percentage-based output with counts</li> </ul> </li> <li> <strong>CLI Interface</strong> <ul> <li>Flexible runtime configuration</li> <li>Supports optional and required parameters</li> </ul> </li>
+</section>
+
 <section id="structure">
-  <h2>Project Structure 🗂️</h2>
+  <h2>Project Structure</h2>
   <pre>
 GraphLoot-Engine/
 │
-├── Game.cpp / Game.hpp          # Game loop, menu, and player interaction
-├── World.cpp / World.hpp        # World state and chest management
-├── WorldGraph.cpp / .hpp        # Graph implementation + Dijkstra algorithm
-├── ItemDatabase.cpp / .hpp      # CSV parsing and item creation
-├── LootPool.cpp / .hpp          # Weighted random loot selection
-├── Chest.cpp / .hpp             # Chest contents and display logic
-├── GameUtils.cpp / .hpp         # Input formatting helpers
-├── FortniteWorld.cpp            # Graph construction and connections
-├── Items.csv                    # Item data source
-└── README.html
+├── main.cpp                 # Program entry point
+├── Game.cpp / Game.hpp     # Core game loop and simulation control
+├── GameUtils.cpp / .hpp    # Helper functions for game logic
+│
+├── World.cpp / World.hpp           # Base world representation
+├── FortniteWorld.cpp / .hpp        # Fortnite-inspired world implementation
+├── WorldGraph.cpp / .hpp           # Graph structure and traversal logic
+│
+├── Entry.cpp / Entry.hpp   # Node/POI representation in the graph
+├── Chest.cpp / Chest.hpp   # Loot chest logic and interactions
+│
+├── Inventory.cpp / .hpp    # Player inventory system
+├── Item.cpp / Item.hpp    # Base item definitions
+├── Weapon.cpp / .hpp      # Weapon-specific item logic
+├── ItemDatabase.cpp / .hpp # Loads and manages item data (CSV-driven)
+├── LootPool.cpp / .hpp    # Loot probability and drop system
+│
+├── DefaultMap.csv         # Default map configuration
+├── TestMap.csv            # Test map for debugging
+├── Items.csv              # Item definitions and stats
+│
+├── Results.txt            # Output results from simulation runs
+│
+├── engine / engine.exe    # Compiled executable artifacts
+├── .vscode/               # VSCode configuration
+└── README.md              # Project documentation
   </pre>
 </section>
 
 <section id="graph">
-  <h2>World Graph Design 🌍</h2>
+  <h2>World Graph Design</h2>
   <p>
-    The world is modeled as an <strong>undirected weighted graph</strong>, meaning travel is
-    possible in both directions along each connection.
+    The game world is modeled as an <strong>undirected weighted graph</strong>, where each node
+    represents a point of interest (POI) and edges represent traversable paths between locations.
   </p>
+
   <p>
-    Edge weights represent relative travel cost, allowing realistic path optimization and
-    preventing hardcoded routes.
+    Edge weights encode <strong>relative traversal cost</strong> (e.g., distance or difficulty),
+    enabling dynamic route optimization without relying on hardcoded paths.
+  </p>
+
+  <p>
+    This abstraction allows the engine to scale across different map configurations while
+    supporting algorithmic pathfinding via <strong>Dijkstra’s algorithm</strong>, producing
+    optimal traversal routes in real time.
+  </p>
+
+  <p>
+    The graph is implemented using an <strong>adjacency list</strong> for efficient memory usage
+    and fast neighbor lookup, making it suitable for larger, extensible worlds.
   </p>
 </section>
 
 <section id="algorithms">
-  <h2>Algorithms Used ⚙️</h2>
+  <h2>Algorithms Used</h2>
   <h3>Dijkstra’s Shortest Path Algorithm</h3>
-  <ul>
-    <li>Priority queue (min-heap) based implementation</li>
-    <li>Tracks distance and predecessor maps</li>
-    <li>Time complexity: <strong>O(E log V)</strong></li>
-  </ul>
+
   <p>
-    This algorithm is widely used in navigation systems, routing software, and AI pathfinding.
+    The engine uses a <strong>priority queue–driven implementation of Dijkstra’s algorithm</strong>
+    to compute optimal traversal routes across the world graph. Rather than returning only the
+    final distance, the system reconstructs the <strong>full path sequence of POIs</strong>,
+    enabling step-by-step simulation of player movement.
+  </p>
+
+  <ul>
+    <li>
+      Maintains a <strong>min-heap (priority queue)</strong> keyed by cumulative traversal cost
+      to ensure optimal node expansion order
+    </li>
+    <li>
+      Uses <strong>distance and predecessor maps</strong> to track shortest paths and reconstruct
+      full traversal routes after computation
+    </li>
+    <li>
+      Integrates directly with the game loop, allowing path results to drive
+      <strong>loot generation and simulation flow</strong>
+    </li>
+    <li>
+      Designed to operate on a dynamic graph loaded from CSV-based map data,
+      enabling flexible world configurations
+    </li>
+  </ul>
+
+  <p>
+    This implementation mirrors real-world routing systems (e.g., GPS navigation), where both
+    optimal cost and the exact route are required for execution.
+  </p>
+
+  <p>
+    <strong>Time Complexity:</strong> O(E log V) using a binary heap
   </p>
 </section>
 
 <section id="gameplay">
-  <h2>Gameplay Flow 🎯</h2>
+  <h2>Gameplay Flow</h2>
+  <p>
+    The engine simulates a full traversal-and-loot cycle by combining graph-based navigation
+    with probabilistic item generation. Each step in the flow is driven by underlying systems
+    rather than hardcoded sequences.
+  </p>
+
   <ol>
-    <li>Select an initial drop location</li>
-    <li>View neighboring locations</li>
-    <li>Choose a destination</li>
-    <li>Shortest path is calculated and displayed</li>
-    <li>Travel node-by-node with animated feedback</li>
-    <li>Loot chests and receive randomized items</li>
+    <li>
+      <strong>Initialize World:</strong> Load map data from CSV and construct the weighted graph
+      of POIs and connections
+    </li>
+    <li>
+      <strong>Select Drop Location:</strong> Player chooses a starting node within the graph
+    </li>
+    <li>
+      <strong>Explore Connectivity:</strong> Adjacent nodes are dynamically retrieved from the
+      graph’s adjacency list
+    </li>
+    <li>
+      <strong>Compute Optimal Route:</strong> Dijkstra’s algorithm calculates the shortest path
+      to the selected destination
+    </li>
+    <li>
+      <strong>Simulate Traversal:</strong> The engine iterates through each node in the computed
+      path, providing step-by-step movement feedback
+    </li>
+    <li>
+      <strong>Trigger Loot Events:</strong> At each location, loot is generated via the weighted
+      probability system and added to the player’s inventory
+    </li>
   </ol>
 
+  <p>
+    This pipeline tightly integrates pathfinding with gameplay systems, ensuring that navigation
+    decisions directly influence loot outcomes and overall simulation behavior.
+  </p>
+
   <pre>
-Fastest route:
+Fastest Route Computed:
 Lonely Labs -> Mega City -> Frenzy Fields
 
-→ Traveling from Lonely Labs to Mega City...
-✔ Arrived at Mega City!
+→ Traversing: Lonely Labs → Mega City
+✔ Arrival confirmed: Mega City
 
-→ Traveling from Mega City to Frenzy Fields...
-✔ Arrived at Frenzy Fields!
+→ Traversing: Mega City → Frenzy Fields
+✔ Arrival confirmed: Frenzy Fields
   </pre>
 </section>
 
 <section id="skills">
-  <h2>Skills Demonstrated 🧠</h2>
+  <h2>Skills Demonstrated</h2>
   <ul>
     <li>Graph theory and shortest-path algorithms</li>
     <li>Modern C++ (STL, RAII, object-oriented design)</li>
@@ -141,28 +215,61 @@ Lonely Labs -> Mega City -> Frenzy Fields
 </section>
 
 <section id="usage">
-  <h2>How to Run 🛠️</h2>
-  <p><strong>Compile:</strong></p>
+  <h2>How to Run</h2>
+
+  <p>
+    The engine is executed via command-line arguments, enabling flexible configuration of
+    maps, loot pools, and simulation scale without modifying source code.
+  </p>
+
+  <h3>1. Compile</h3>
   <pre>
-g++ -std=c++17 *.cpp -o lootpath
+g++ -std=c++17 *.cpp -o engine
   </pre>
 
-  <p><strong>Run:</strong></p>
+  <h3>2. Run</h3>
   <pre>
-./lootpath
+./engine --map DefaultMap.csv --loot Items.csv --runs 1
+  </pre>
+
+  <h3>3. Command-Line Options</h3>
+  <ul>
+    <li>
+      <code>--map &lt;file&gt;</code> → Specifies the world graph configuration
+      <ul>
+        <li><code>DefaultMap.csv</code>: Used for the interactive gameplay experience</li>
+        <li><code>TestMap.csv</code>: Custom or experimental maps can be defined here</li>
+      </ul>
+    </li>
+
+    <li>
+      <code>--loot &lt;file&gt;</code> → Defines the loot pool using weighted item data
+      <ul>
+        <li><code>Items.csv</code>: Contains all item definitions, rarity tiers, and drop weights</li>
+      </ul>
+    </li>
+
+    <li>
+      <code>--runs &lt;N&gt;</code> → Controls execution mode
+      <ul>
+        <li><strong>1 run:</strong> Interactive gameplay mode (user-driven traversal)</li>
+        <li><strong>&gt;1 runs:</strong> Simulation mode for repeated automated runs and analysis</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>4. Examples</h3>
+  <pre>
+# Interactive gameplay
+./engine --map DefaultMap.csv --loot Items.csv --runs 1
+
+# Run 1,000 simulations for analysis
+./engine --map DefaultMap.csv --loot Items.csv --runs 1000
   </pre>
 
   <p>
-    Ensure <code>Items.csv</code> is present in the project directory before running.
+    This design supports both <strong>interactive exploration</strong> and
+    <strong>large-scale simulation</strong>, allowing the engine to be used for gameplay as well
+    as balancing and statistical analysis of loot distribution.
   </p>
 </section>
-
-<footer>
-  <p>
-    <strong>Fortnite Graph Loot Engine</strong> is a portfolio-grade project showcasing
-    algorithmic reasoning, data structures, and real-world C++ system design.
-  </p>
-</footer>
-
-</body>
-</html>
