@@ -63,7 +63,6 @@ vector<string> Graph::shortestPath(const string &from, const string &to)
 
     priority_queue<PQElement, vector<PQElement>, greater<PQElement>> pq;
 
-
     //adding the first node to the priority queue
     pq.push({0.0, from});
 
