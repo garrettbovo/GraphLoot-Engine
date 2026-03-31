@@ -260,10 +260,11 @@ g++ -std=c++17 *.cpp -o engine
 
   <h3>4. Examples</h3>
   <pre>
-# Interactive gameplay
+
+### Interactive gameplay
 ./engine --map DefaultMap.csv --loot Items.csv --runs 1
 
-# Run 1,000 simulations for analysis
+### Run 1,000 simulations for analysis
 ./engine --map DefaultMap.csv --loot Items.csv --runs 1000
   </pre>
 
