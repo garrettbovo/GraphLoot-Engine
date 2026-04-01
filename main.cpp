@@ -27,10 +27,35 @@ int main(int argc, char *argv[])
     World world;
     Game game;
     int runs = 1;
-    string strRuns = getArgValue(argc, argv, "--runs");
-    
-    if (strRuns != "")
-        runs = stoi(strRuns);
+    string strRuns;
+
+    //onlineGDB safe version of the interactive Fortnite mode
+    if (argc == 1) {
+        //no CLI args provided → fallback (OnlineGDB)
+        static char arg0[] = "engine";
+        static char arg1[] = "--map";
+        static char arg2[] = "DefaultMap.csv";
+        static char arg3[] = "--loot";
+        static char arg4[] = "Items.csv";
+        static char arg5[] = "--runs";
+        static char arg6[] = "1";
+        
+        static char* fakeArgv[] = { arg0, arg1, arg2, arg3, arg4, arg5, arg6 };
+
+        argc = 7;
+        argv = fakeArgv;
+    }
+
+    //version of the game outside of OnlineGDB
+    else
+    {
+        //reading in CLI for how many times the game should run
+        strRuns = getArgValue(argc, argv, "--runs");
+        
+        //converting the valid string input into and integer variable
+        if (strRuns != "")
+            runs = stoi(strRuns);
+    }
 
     //reading loot information from CSV file
     data.readCSV(argc, argv);

@@ -136,7 +136,7 @@ int ItemDatabase::readCSV(const int &argc, char *argv[])
 
             //instantiating a new Weapon node to be pushed back onto the vector of all items 
             node = new Weapon(ID, rarityID, name, description, typeID, damage, fireRate, reloadTime, ammo, magSize);
-        }
+        }     
 
         allItems.push_back(node);
     }
