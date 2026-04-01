@@ -1,4 +1,4 @@
-![Build](https://github.com/YOUR_USERNAME/GraphLoot-Engine/actions/workflows/build.yml/badge.svg)
+![Build](https://github.com/garrettbovo/GraphLoot-Engine/actions/workflows/build.yml/badge.svg)
 
 <body>
 
