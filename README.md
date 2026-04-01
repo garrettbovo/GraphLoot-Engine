@@ -1,12 +1,12 @@
 ![Build](https://github.com/garrettbovo/GraphLoot-Engine/actions/workflows/build.yml/badge.svg)
 
-<body>
-
 <header>
   <h1>Fortnite Graph Loot Engine</h1>
   <p>
     A configurable C++ simulation engine that models traversal across a weighted graph while generating probabilistic loot outcomes. Designed to analyze loot distributions and traversal behavior using large-scale simulation.
   </p>
+
+  <p><strong>Includes CMake build system, automated testing, and CI validation.</strong></p>
 
   <p><strong>Supports both interactive gameplay and large-scale simulation via a command-line interface.</strong></p>
 
@@ -35,6 +35,7 @@
     <li><a href="#gameplay">Gameplay Flow</a></li>
     <li><a href="#skills">Skills Demonstrated</a></li>
     <li><a href="#usage">How to Run</a></li>
+    <li><a href="#testing">Testing & Validation</a></li>
     <li><a href="#results">Results</a></li>
   </ul>
 </details>
@@ -87,7 +88,7 @@ GraphLoot-Engine/
 │
 ├── Results.txt            # Output results from simulation runs
 │
-├── Makfefile              # Build automation
+├── Makefile               # Build automation
 ├── .vscode/               # VSCode configuration
 └── README.md              # Project documentation
   </pre>
@@ -276,6 +277,29 @@ make simulate
     <li>Proper command-line argument support</li>
   </ul>
 
+  <h3>🟣 Recommended (CMake Build)</h3>
+<p>
+  The project uses a CMake-based build system for portability and scalability.
+</p>
+
+<h4>Build</h4>
+<pre>
+mkdir build
+cd build
+cmake ..
+make
+</pre>
+
+<h4>Run Interactive Mode</h4>
+<pre>
+./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1
+</pre>
+
+<h4>Run Simulation Mode</h4>
+<pre>
+./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1000
+</pre>
+
   <hr>
 
   <h3>Notes</h3>
@@ -284,6 +308,25 @@ make simulate
     <li>OnlineGDB does not support command-line arguments reliably</li>
     <li>Use local execution for full feature support</li>
   </ul>
+</section>
+
+<section id="testing">
+  <h2>Testing & Validation</h2>
+
+  <p>
+    The project includes automated tests to verify correctness of core algorithms.
+    A deterministic test validates the Dijkstra shortest-path implementation against
+    known graph configurations.
+  </p>
+
+  <pre>
+./test_dijkstra
+  </pre>
+
+  <p>
+    Continuous Integration (CI) runs these tests automatically on every push,
+    ensuring algorithm correctness is maintained over time.
+  </p>
 </section>
 
 <section id="results">
