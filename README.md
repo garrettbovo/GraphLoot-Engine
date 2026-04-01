@@ -3,8 +3,10 @@
 <header>
   <h1>Fortnite Graph Loot Engine</h1>
   <p>
-    A configurable C++ simulation engine that models traversal across a weighted graph while generating probabilistic loot outcomes. Designed to analyze loot distributions and traversal behavior using large-scale simulation.</strong>.
+    A configurable C++ simulation engine that models traversal across a weighted graph while generating probabilistic loot outcomes. Designed to analyze loot distributions and traversal behavior using large-scale simulation.
   </p>
+
+  <p><strong>Supports both interactive gameplay and large-scale simulation via a command-line interface.</strong></p>
 
   <h2>How to Run the Code</h2>
 <p>
@@ -14,7 +16,10 @@
   </a>
 </p>
 
-<p>Enjoy exploring the program!</p>
+<p>
+  ⚠️ OnlineGDB is intended for quick interactive demos only.  
+  For full simulation capabilities, run locally using the Makefile.
+</p>
 </header>
 
 <details>
@@ -28,6 +33,7 @@
     <li><a href="#gameplay">Gameplay Flow</a></li>
     <li><a href="#skills">Skills Demonstrated</a></li>
     <li><a href="#usage">How to Run</a></li>
+    <li><a href="#results">Results</a></li>
   </ul>
 </details>
 
@@ -46,8 +52,6 @@
 </section>
 
 <section id="features">
-  <h2>Features</h2>
-  <div class="section">
   <h2>Features</h2>
 
 <li> <strong>Data-Driven Design</strong> <ul> <li>Map and loot systems loaded from CSV files</li> <li>No hardcoded game data</li> </ul> </li> <li> <strong>Simulation Engine</strong> <ul> <li>Supports large-scale runs (e.g., 1,000,000+ simulations)</li> <li>Fixed-step traversal model</li> <li>Interactive and simulation modes</li> </ul> </li> <li> <strong>Statistical Analysis</strong> <ul> <li>Rarity and weapon type distribution tracking</li> <li>Percentage-based output with counts</li> </ul> </li> <li> <strong>CLI Interface</strong> <ul> <li>Flexible runtime configuration</li> <li>Supports optional and required parameters</li> </ul> </li>
@@ -81,7 +85,7 @@ GraphLoot-Engine/
 │
 ├── Results.txt            # Output results from simulation runs
 │
-├── engine / engine.exe    # Compiled executable artifacts
+├── Makfefile              # Build automation
 ├── .vscode/               # VSCode configuration
 └── README.md              # Project documentation
   </pre>
@@ -217,60 +221,109 @@ Lonely Labs -> Mega City -> Frenzy Fields
 <section id="usage">
   <h2>How to Run</h2>
 
+  <h3>🟢 Quick Demo (OnlineGDB)</h3>
   <p>
-    The engine is executed via command-line arguments, enabling flexible configuration of
-    maps, loot pools, and simulation scale without modifying source code.
+    The project supports a fallback execution mode for environments that do not allow
+    command-line arguments (e.g., OnlineGDB).
   </p>
-
-  <h3>1. Compile</h3>
-  <pre>
-g++ -std=c++17 *.cpp -o engine
-  </pre>
-
-  <h3>2. Run</h3>
-  <pre>
-./engine --map DefaultMap.csv --loot Items.csv --runs 1
-  </pre>
-
-  <h3>3. Command-Line Options</h3>
   <ul>
-    <li>
-      <code>--map &lt;file&gt;</code> → Specifies the world graph configuration
-      <ul>
-        <li><code>DefaultMap.csv</code>: Used for the interactive gameplay experience</li>
-        <li><code>TestMap.csv</code>: Custom or experimental maps can be defined here</li>
-      </ul>
-    </li>
-
-    <li>
-      <code>--loot &lt;file&gt;</code> → Defines the loot pool using weighted item data
-      <ul>
-        <li><code>Items.csv</code>: Contains all item definitions, rarity tiers, and drop weights</li>
-      </ul>
-    </li>
-
-    <li>
-      <code>--runs &lt;N&gt;</code> → Controls execution mode
-      <ul>
-        <li><strong>1 run:</strong> Interactive gameplay mode (user-driven traversal)</li>
-        <li><strong>&gt;1 runs:</strong> Simulation mode for repeated automated runs and analysis</li>
-      </ul>
-    </li>
+    <li>Simply compile and run the program</li>
+    <li>No arguments are required</li>
+    <li>The engine will automatically use default values:</li>
   </ul>
 
-  <h3>4. Examples</h3>
   <pre>
-
-### Interactive gameplay
-./engine --map DefaultMap.csv --loot Items.csv --runs 1
-
-### Run 1,000 simulations for analysis
-./engine --map DefaultMap.csv --loot Items.csv --runs 1000
+Map: DefaultMap.csv
+Loot: Items.csv
+Runs: 1 (interactive mode)
   </pre>
 
   <p>
-    This design supports both <strong>interactive exploration</strong> and
-    <strong>large-scale simulation</strong>, allowing the engine to be used for gameplay as well
-    as balancing and statistical analysis of loot distribution.
+    This mode is intended for <strong>interactive gameplay demonstration</strong>.
+  </p>
+
+  <hr>
+
+  <h3>🔵 Full Usage (Local Environment with Makefile)</h3>
+  <p>
+    For full functionality, including simulation and configuration via command-line arguments,
+    use the provided Makefile in a local development environment.
+  </p>
+
+  <h4>Build</h4>
+  <pre>
+make
+  </pre>
+
+  <h4>Run Interactive Mode</h4>
+  <pre>
+make run
+  </pre>
+
+  <h4>Run Simulation Mode</h4>
+  <pre>
+make simulate
+  </pre>
+
+  <p>
+    The Makefile enables:
+  </p>
+  <ul>
+    <li>Custom map and loot configurations</li>
+    <li>Multi-run simulations for statistical analysis</li>
+    <li>Proper command-line argument support</li>
+  </ul>
+
+  <hr>
+
+  <h3>Notes</h3>
+  <ul>
+    <li>CSV files (<code>DefaultMap.csv</code>, <code>Items.csv</code>) must be present</li>
+    <li>OnlineGDB does not support command-line arguments reliably</li>
+    <li>Use local execution for full feature support</li>
+  </ul>
+</section>
+
+<section id="results">
+  <h2>Simulation Results</h2>
+
+  <p>
+    The engine supports large-scale simulation to analyze loot distribution and system balance.
+    Below is an example run with <strong>1,000,000 simulations</strong>.
+  </p>
+
+  <pre>
+========================================
+      GRAPH LOOT ENGINE RESULTS
+========================================
+
+Simulation Runs: 1000000
+Steps per Run: 5
+Total Loot Rolls: 3654143
+
+----------------------------------------
+Rarity Distribution
+----------------------------------------
+Common      : 26.32 % (961837)
+Uncommon    : 26.30 % (960857)
+Rare        : 26.23 % (958432)
+Epic        : 13.66 % (498975)
+Legendary   : 6.74  % (246257)
+
+----------------------------------------
+Weapon Type Distribution
+----------------------------------------
+AR          : 38.05 % (1390394)
+Shotgun     : 24.67 % (901531)
+SMG         : 29.16 % (1065504)
+Heavy       : 7.33  % (267871)
+
+========================================
+  </pre>
+
+  <p>
+    These results demonstrate the engine’s ability to produce <strong>statistically stable
+    distributions</strong> across large sample sizes, validating the correctness of the
+    weighted loot system and probability model.
   </p>
 </section>
