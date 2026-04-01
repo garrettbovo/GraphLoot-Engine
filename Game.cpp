@@ -282,7 +282,7 @@ void Game::simulate(ItemDatabase &db)
 void Game::writeSimulation(const int &runs) const
 {
     //variable declarations and initializations
-    ofstream file("Results.txt");
+    ofstream file("../Results.txt");
     int totalRolls = 0, count;
     vector<string> rarityOrder = {"Common", "Uncommon", "Rare", "Epic", "Legendary"};
     vector<bullet> gunOrder = {Medium, Shells, Light, Heavy};

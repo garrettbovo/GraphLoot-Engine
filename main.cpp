@@ -10,10 +10,29 @@
 #include <ctime>
 using namespace std;
 
-/*HOW TO RUN THE PROGRAM
+/*HOW TO COMPILE & RUN THE PROGRAM
 ------------------------------
 g++ -std=c++17 *.cpp -o engine
 ./engine --map DefaultMap.csv --loot Items.csv --runs 1000
+------------------------------
+*/
+
+/*HOW TO BUILD USING CMAKE
+------------------------------
+rm -rf build
+mkdir build
+cd build
+cmake ..
+make
+
+RUN INTERACTIVE MODE
+./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1
+
+RUN SIMULATION MODE
+./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1000
+
+TEST DIJKSTRA
+./test_dijkstra
 ------------------------------
 */
 
