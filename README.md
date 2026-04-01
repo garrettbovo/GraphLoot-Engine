@@ -1,3 +1,5 @@
+![Build](https://github.com/YOUR_USERNAME/GraphLoot-Engine/actions/workflows/build.yml/badge.svg)
+
 <body>
 
 <header>
