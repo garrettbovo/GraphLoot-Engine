@@ -42,7 +42,7 @@
   <h2>Overview</h2>
   <p>
     GraphLoot Engine simulates a player moving through a graph of Points of Interest (POIs), collecting loot at each step. The system supports both single-run execution and large-scale simulations to analyze statistical outcomes.
-
+    <br />
     The engine is fully data-driven:
   </p>
   <ul>
