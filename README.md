@@ -8,8 +8,6 @@
 
   <p><strong>Includes CMake build system, automated testing, and CI validation.</strong></p>
 
-  <p><strong>Supports both interactive gameplay and large-scale simulation via a command-line interface.</strong></p>
-
   <h2>How to Run the Code</h2>
 <p>
   You can run this project directly in your browser without creating an account:
