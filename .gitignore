@@ -1,0 +1,11 @@
+# Build artifacts
+*.o
+*.out
+*.exe
+engine
+
+# CMake build directory
+build/
+
+# VS Code (optional)
+.vscode/

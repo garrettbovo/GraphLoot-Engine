@@ -1,4 +1,0 @@
-/Users/garrettellis/GraphLoot-Engine/build/CMakeFiles/engine.dir
-/Users/garrettellis/GraphLoot-Engine/build/CMakeFiles/test_dijkstra.dir
-/Users/garrettellis/GraphLoot-Engine/build/CMakeFiles/edit_cache.dir
-/Users/garrettellis/GraphLoot-Engine/build/CMakeFiles/rebuild_cache.dir
