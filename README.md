@@ -6,7 +6,6 @@
     A configurable C++ simulation engine that models traversal across a weighted graph while generating probabilistic loot outcomes. Designed to analyze loot distributions and traversal behavior using large-scale simulation.
   </p>
 
-  <p><strong>Includes CMake build system, automated testing, and CI validation.</strong></p>
 
   <h2>How to Run the Code</h2>
 <p>
@@ -214,8 +213,6 @@ Lonely Labs -> Mega City -> Frenzy Fields
     <li>Modern C++ (STL, RAII, object-oriented design)</li>
     <li>File I/O and CSV parsing</li>
     <li>Weighted probability systems</li>
-    <li>Defensive programming</li>
-    <li>Clean, modular architecture</li>
   </ul>
 </section>
 
