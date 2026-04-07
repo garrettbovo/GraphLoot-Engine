@@ -1,8 +1,9 @@
 # Build artifacts
 *.o
-*.out
 *.exe
 engine
+build/
+.vscode/
 
 # CMake build directory
 build/
