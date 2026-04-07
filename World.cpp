@@ -13,6 +13,12 @@ void World::addConnection(const string &vertexA, const string &vertexB, const do
     graph.addEdge(vertexA, vertexB, weight);
 }
 
+//adding two-dimensional position to graph
+void World::addDistance(const string &vertex, const double &x, const double &y)
+{
+    graph.addNode(vertex, x, y);
+}
+
 //method for adding a chest to the given POI
 void World::addChest(const string &location, const Chest &chest)
 {
@@ -51,6 +57,12 @@ vector<string> World::getNeighbors(const string &location) const
 vector<string> World::getShortestPath(const string &from, const string &to)
 {
     return graph.shortestPath(from, to);
+}
+
+//method returning the a* path from vertex A to vertex B
+vector<string> World::getAStar(const string &vertexA, const string &vertexB)
+{
+    return graph.aStar(vertexA, vertexB);
 }
 
 //getter returning the chest at the given POI

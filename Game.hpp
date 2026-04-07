@@ -38,7 +38,7 @@ class Game
         //getter returning the number of weapon's based on rarity
         unordered_map<bullet, int> getTypeCounts() const { return typeCounts; }
         //method for running the game
-        bool run(ItemDatabase &);
+        bool run(ItemDatabase &, const string &);
         //method for simulation
         void simulate(ItemDatabase &);
         //printing the game's world

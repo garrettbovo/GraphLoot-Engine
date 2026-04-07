@@ -13,7 +13,11 @@ using namespace std;
 /*HOW TO COMPILE & RUN THE PROGRAM
 ------------------------------
 g++ -std=c++17 *.cpp -o engine
-./engine --map DefaultMap.csv --loot Items.csv --runs 1000
+./engine --map DefaultMap.csv --loot Items.csv --runs 1000 --nodes Nodes.csv --algorithm dijkstra
+
+//ALGORITHM OPTIONS (INPUT EXACTLY ONE AS FOLLOWS):
+    - dijkstra
+    - astar
 ------------------------------
 */
 
@@ -46,7 +50,7 @@ int main(int argc, char *argv[])
     World world;
     Game game;
     int runs = 1;
-    string strRuns;
+    string strRuns, strAlgorithm;
 
     //onlineGDB safe version of the interactive Fortnite mode
     if (argc == 1) {
@@ -76,6 +80,22 @@ int main(int argc, char *argv[])
             runs = stoi(strRuns);
     }
 
+    //determining which algorithm to use for player movement
+    strAlgorithm = getArgValue(argc, argv, "--algorithm");
+        
+    //checking if the algorithm CLI input was empty; if so, default to dijkstra
+    if (strAlgorithm != "")
+        strAlgorithm = "dijkstra";
+    
+    else if (strAlgorithm == "astar")
+        strAlgorithm = "astar";
+
+    else
+    {
+        cerr << "Invalid algorithm selection" << endl;
+        exit(1);
+    }
+
     //reading loot information from CSV file
     data.readCSV(argc, argv);
     //initializing the loot pool from the vector of items
@@ -85,7 +105,7 @@ int main(int argc, char *argv[])
 
     //running the interactive version of the game if the user said to run the game one time
     if (runs == 1)
-        game.run(data);
+        game.run(data, strAlgorithm);
     
     //running the simulated version of the game if the user said to run the game more than once
     else if (runs > 1)

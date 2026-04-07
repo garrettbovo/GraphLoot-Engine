@@ -69,7 +69,7 @@ void Game::printMenu() const
 }
 
 //method for running the game
-bool Game::run(ItemDatabase &db)
+bool Game::run(ItemDatabase &db, const string &algorithm)
 {
     //variable declarations
     string input, destination;
@@ -148,8 +148,8 @@ bool Game::run(ItemDatabase &db)
                     continue;
                 }
                 
-                //the vector path from the current location to the destination the user wants to go to is instantiated with the shortest path to the destination POI
-                path = world.getShortestPath(currentLoc, destination);
+                //the vector path from the current location to the destination is given depending on whether the user decides to use a* or dijkstra's algorithm
+                (algorithm == "dijkstra") ? (path = world.getShortestPath(currentLoc, destination)) : (path = world.getAStar(currentLoc, destination));
 
                 //checking if the path is empty to throw an error
                 if (path.empty())

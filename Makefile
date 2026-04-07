@@ -33,13 +33,18 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Run (interactive default)
+# Run Dijkstra (interactive default)
 run: $(TARGET)
-	./$(TARGET) --map DefaultMap.csv --loot Items.csv --runs 1
+	./$(TARGET) --map DefaultMap.csv --nodes Nodes.csv --algorithm dijkstra --loot Items.csv --runs 1
+
+# Run A* (interactive default)
+run-astar: $(TARGET)
+	./$(TARGET) --map DefaultMap.csv --nodes Nodes.csv --algorithm astar --loot Items.csv --runs 1
 
 # Run simulation
 simulate: $(TARGET)
-	./$(TARGET) --map DefaultMap.csv --loot Items.csv --runs 1000000
+	./$(TARGET) --map DefaultMap.csv --nodes Nodes.csv --algorithm dijkstra --loot Items.csv --runs 1000000
+
 
 # Clean build files
 clean:

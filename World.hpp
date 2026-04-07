@@ -22,6 +22,8 @@ class World
         void addDrop(const string &);
         //adding edge to graph
         void addConnection(const string &, const string &, const double &);
+        //adding two-dimensional position to graph
+        void addDistance(const string &, const double &, const double &);
         //adding chest to POI
         void addChest(const string &, const Chest &);
         //checking if given POI has an unlooted chest
@@ -32,6 +34,8 @@ class World
         vector<string> getNeighbors(const string &) const;
         //method returning the shortest path from vertex A to vertex B
         vector<string> getShortestPath(const string &, const string &);
+        //method returning the a* path from vertex A to vertex B
+        vector<string> getAStar(const string &, const string &);
         //getter returning the chest at the given POI
         Chest &getChest(const string &);
         //erasing the method at the given POI
