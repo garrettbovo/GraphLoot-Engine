@@ -147,16 +147,6 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
                     cout << "Invalid location, try again." << endl;
                     continue;
                 }
-                
-                //the vector path from the current location to the destination is given depending on whether the user decides to use a* or dijkstra's algorithm
-                (algorithm == "dijkstra") ? (path = world.getShortestPath(currentLoc, destination)) : (path = world.getAStar(currentLoc, destination));
-
-                //checking if the path is empty to throw an error
-                if (path.empty())
-                {
-                    cout << "No route exists to that destination.\n";
-                    break;
-                }
                     
                 //displaying the fastest route to the destination path using a loop through the vector
                 cout << "\nFastest route:" << endl;
@@ -180,6 +170,25 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
                     //if the user does want to travel to the destination POI, a slowed message will show how the user travels to each location in the vector path until the destination is reached
                     if (input == "Yes")
                     {
+                        //running dijkstra's algorithm
+                        if (algorithm == "dijkstra")
+                            path = world.getShortestPath(currentLoc, destination);
+                        
+                        //running A* algorithm
+                        else if (algorithm == "astar")
+                            path = world.getAStar(currentLoc, destination);
+                        
+                        //running the both algorithms and comparing their results    
+                        else
+                            path = world.getComparison(currentLoc, destination);
+
+                        //checking if the path is empty to throw an error
+                        if (path.empty())
+                        {
+                            cout << "No route exists to that destination.\n";
+                            break;
+                        }
+                        
                         cout << "\nTraveling to " << destination << "...\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(700));
 

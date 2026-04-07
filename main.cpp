@@ -90,6 +90,10 @@ int main(int argc, char *argv[])
     //checking if the algorithm CLI was prompting a*
     else if (strAlgorithm == "astar")
         strAlgorithm = "astar";
+    
+    //checking if the algorithm CLI was prompting to compare dijkstra's and a*    
+    else if (strAlgorithm == "compare")
+        strAlgorithm = "compare";
 
     //otherwise, an invalid algorithm was input so the program will throw an error and terminate
     else

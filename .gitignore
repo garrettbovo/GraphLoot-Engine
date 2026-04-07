@@ -2,11 +2,9 @@
 *.o
 *.exe
 engine
-build/
-.vscode/
 
-# CMake build directory
+# Build directories
 build/
 
-# VS Code (optional)
+# IDE files
 .vscode/

@@ -36,6 +36,8 @@ class World
         vector<string> getShortestPath(const string &, const string &);
         //method returning the a* path from vertex A to vertex B
         vector<string> getAStar(const string &, const string &);
+        //method for returning the shortest path/a* path comparison from vertex A to vertex B
+        vector<string> getComparison(const string &, const string &);
         //getter returning the chest at the given POI
         Chest &getChest(const string &);
         //erasing the method at the given POI

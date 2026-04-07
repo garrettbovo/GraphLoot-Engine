@@ -1,0 +1,17 @@
+================ COMPARISON ================
+
+Start: Brutal Bastion
+End: Shattered Slabs
+
+Dijkstra:
+Path Cost: 13.5
+Nodes Explored: 7
+Time: 0.0358 ms
+
+A*:
+Path Cost: 13.5
+Nodes Explored: 7
+Time: 0.0279 ms
+
+===========================================
+

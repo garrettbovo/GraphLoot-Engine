@@ -65,6 +65,12 @@ vector<string> World::getAStar(const string &vertexA, const string &vertexB)
     return graph.aStar(vertexA, vertexB);
 }
 
+//method for returning the shortest path/a* path comparison from vertex A to vertex B
+vector<string> World::getComparison(const string &vertexA, const string &vertexB)
+{
+    return graph.comparePaths(vertexA, vertexB);
+}
+
 //getter returning the chest at the given POI
 Chest &World::getChest(const string &location)
 {

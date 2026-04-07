@@ -35,6 +35,8 @@ class Graph
         vector<string> shortestPath(const string &, const string &);
         //method returning a vector of the a* path from vertex A to vertex B
         vector<string> aStar(const string &, const string &);
+        //method for comparing path from vertex A to vertex B using shortest path and A*
+        vector<string> comparePaths(const string &, const string &);
         //getter returning the graph's adjacency list
         const unordered_map<string, vector<Edge>> &getAdjList() const { return adjList; }
         //getter returning the graph's a* list
