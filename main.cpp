@@ -83,13 +83,15 @@ int main(int argc, char *argv[])
     //determining which algorithm to use for player movement
     strAlgorithm = getArgValue(argc, argv, "--algorithm");
         
-    //checking if the algorithm CLI input was empty; if so, default to dijkstra
-    if (strAlgorithm != "")
+    //checking if the algorithm CLI was empty; if so, default to dijkstra
+    if (strAlgorithm == "" || strAlgorithm == "dijkstra")
         strAlgorithm = "dijkstra";
     
+    //checking if the algorithm CLI was prompting a*
     else if (strAlgorithm == "astar")
         strAlgorithm = "astar";
 
+    //otherwise, an invalid algorithm was input so the program will throw an error and terminate
     else
     {
         cerr << "Invalid algorithm selection" << endl;

@@ -282,7 +282,7 @@ void Game::simulate(ItemDatabase &db)
 void Game::writeSimulation(const int &runs) const
 {
     //variable declarations and initializations
-    ofstream file("../Results.txt");
+    ofstream file("Results.txt");
     int totalRolls = 0, count;
     vector<string> rarityOrder = {"Common", "Uncommon", "Rare", "Epic", "Legendary"};
     vector<bullet> gunOrder = {Medium, Shells, Light, Heavy};
@@ -297,7 +297,7 @@ void Game::writeSimulation(const int &runs) const
     //counting the total number of times the simulation opened chests
     for (const auto &pair : rarityCounts)
         totalRolls += pair.second;
-
+    
     //printing menu
     file << "\n========================================\n";
     file << "      GRAPH LOOT ENGINE RESULTS\n";
