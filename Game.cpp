@@ -147,16 +147,12 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
                     cout << "Invalid location, try again." << endl;
                     continue;
                 }
-                
-                //running dijkstra's algorithm
-                if (algorithm == "dijkstra")
-                    path = world.getShortestPathConst(currentLoc, destination);
-                        
+                    
                 //running A* algorithm
-                else if (algorithm == "astar")
+                if (algorithm == "astar")
                     path = world.getAStarConst(currentLoc, destination);
                         
-                //running the both algorithms and comparing their results    
+                //running dijkstra's algorithm  
                 else
                     path = world.getShortestPathConst(currentLoc, destination);
 
@@ -200,7 +196,7 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
                             cout << "No route exists to that destination.\n";
                             break;
                         }
-                        
+
                         cout << "\nTraveling to " << destination << "...\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(700));
 

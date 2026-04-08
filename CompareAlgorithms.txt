@@ -1,17 +1,17 @@
 ================ COMPARISON ================
 
-Start: Brutal Bastion
-End: Shattered Slabs
+Start: Shattered Slabs
+End: Mega City
 
 Dijkstra:
-Path Cost: 13.5
-Nodes Explored: 7
-Time: 0.0358 ms
+Path Cost: 8.5
+Nodes Explored: 4
+Time: 0.0386 ms
 
 A*:
-Path Cost: 13.5
-Nodes Explored: 7
-Time: 0.0279 ms
+Path Cost: 8.5
+Nodes Explored: 4
+Time: 0.0366 ms
 
 ===========================================
 
