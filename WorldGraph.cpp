@@ -44,9 +44,8 @@ void Graph::addEdge(const string &from, const string &to, const double &weight)
 //adding two-dimensional location to given vertex
 void Graph::addNode(const string &vertex, const double &x, const double &y)
 {
-    //adding new Node to map if it does not exist
-    if (nodes.find(vertex) != nodes.end())
-        nodes[vertex] = {vertex, x, y};
+    //adding new Node to map
+    nodes[vertex] = {vertex, x, y};
 }
 
 //method for implementing Dijkstra's algorithm
