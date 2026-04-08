@@ -37,6 +37,10 @@ class Graph
         vector<string> aStar(const string &, const string &);
         //method for comparing path from vertex A to vertex B using shortest path and A*
         vector<string> comparePaths(const string &, const string &);
+        //method for showing fastest route from Dijkstra
+        vector<string> routeDijsktra(const string &, const string &) const;
+        //method for showing fastest route from A*
+        vector<string> routeAStar(const string &, const string &) const;
         //getter returning the graph's adjacency list
         const unordered_map<string, vector<Edge>> &getAdjList() const { return adjList; }
         //getter returning the graph's a* list
@@ -44,7 +48,7 @@ class Graph
         //prints the graph's vertices and edge connections
         void print() const;
         //method for finding the distance between two nodes using x and y
-        double heuristic(const string &, const string &);
+        double heuristic(const string &, const string &) const;
 };
 
 #endif

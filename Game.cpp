@@ -147,7 +147,19 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
                     cout << "Invalid location, try again." << endl;
                     continue;
                 }
-                    
+                
+                //running dijkstra's algorithm
+                if (algorithm == "dijkstra")
+                    path = world.getShortestPathConst(currentLoc, destination);
+                        
+                //running A* algorithm
+                else if (algorithm == "astar")
+                    path = world.getAStarConst(currentLoc, destination);
+                        
+                //running the both algorithms and comparing their results    
+                else
+                    path = world.getShortestPathConst(currentLoc, destination);
+
                 //displaying the fastest route to the destination path using a loop through the vector
                 cout << "\nFastest route:" << endl;
 

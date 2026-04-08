@@ -424,6 +424,177 @@ vector<string> Graph::comparePaths(const string &from, const string &to)
     return path;
 }
 
+//method for showing fastest route from Dijkstra
+vector<string> Graph::routeDijsktra(const string &from, const string &to) const
+{
+    //dist stores the shortest known path from distance to each from node
+    unordered_map<string, double> dist;
+    //prev stores the previous node on the shortest path
+    unordered_map<string, string> prev;
+    string neighbor, current;
+    double newDist;
+    //final path of ordered list of location
+    vector<string> path;
+
+    //makes sure the vector is not empty
+    if (adjList.find(from) == adjList.end() || adjList.find(to) == adjList.end())
+        return {};
+    
+    for (auto it = adjList.begin(); it != adjList.end(); ++it)
+    {
+        dist[it->first] = numeric_limits<double>::infinity();
+        prev[it->first] = "";
+    }
+
+    //starting node has zero cost
+    dist[from] = 0.0;
+
+    using PQElement = pair<double, string>;
+
+    priority_queue<PQElement, vector<PQElement>, greater<PQElement>> pq;
+
+    //adding the first node to the priority queue
+    pq.push({0.0, from});
+
+    //looping while the priority queue is not empty
+    while (!pq.empty())
+    {
+        auto [currentDist, currentNode] = pq.top();
+        pq.pop();
+
+        //breaking from loop once the to node is encountered
+        if (currentNode == to)
+            break;
+
+        if (currentDist > dist[currentNode])
+            continue;
+
+        //loop updating distance and reinserting the neighbor into the priority queue
+        for (const Edge &edge : adjList.at(currentNode)) 
+        {
+            neighbor = edge.to;
+            newDist = dist[currentNode] + edge.weight;
+
+            if (newDist < dist[neighbor]) 
+            {
+                dist[neighbor] = newDist;
+                prev[neighbor] = currentNode;
+                pq.push({newDist, neighbor});
+            }
+        }
+    }
+
+    //making sure the graph is connected
+    if (dist[to] == std::numeric_limits<double>::infinity())
+        return {};
+    
+    current = to;
+
+    while (current != from) 
+    {
+        path.push_back(current);
+    
+        if (prev.find(current) == prev.end() || prev[current] == "")
+            return {};
+
+        current = prev[current];
+    }
+
+    path.push_back(from);
+
+    reverse(path.begin(), path.end());
+
+    return path;
+}
+
+//method for showing fastest route from A*
+vector<string> Graph::routeAStar(const string &from, const string &to) const
+{
+    //dist stores the shortest known path from distance to each from node
+    unordered_map<string, double> gScore, fScore;
+    //prev stores the previous node on the shortest path
+    unordered_map<string, string> prev;
+    string neighbor, current;
+    double tentativeG;
+    //final path of ordered list of location
+    vector<string> path;
+
+    //makes sure the vector is not empty
+    if (adjList.find(from) == adjList.end() || adjList.find(to) == adjList.end())
+        return {};
+    
+    for (auto it = adjList.begin(); it != adjList.end(); ++it)
+    {
+        gScore[it->first] = numeric_limits<double>::infinity();
+        fScore[it->first] = numeric_limits<double>::infinity();
+        prev[it->first] = "";
+    }
+
+    //starting node has zero cost
+    gScore[from] = 0.0;
+    //starting node is this far away from the second node
+    fScore[from] = heuristic(from, to);
+
+    using PQElement = pair<double, string>;
+
+    priority_queue<PQElement, vector<PQElement>, greater<PQElement>> pq;
+
+    //adding the first node to the priority queue
+    pq.push({fScore[from], from});
+
+    //looping while the priority queue is not empty
+    while (!pq.empty())
+    {
+        auto [currentDist, currentNode] = pq.top();
+        pq.pop();
+
+        //breaking from loop once the to node is encountered
+        if (currentNode == to)
+            break;
+
+        if (currentDist > fScore[currentNode])
+            continue;
+
+        //loop updating distance and reinserting the neighbor into the priority queue
+        for (const Edge &edge : adjList.at(currentNode)) 
+        {
+            neighbor = edge.to;
+
+            tentativeG = gScore[currentNode] + edge.weight;
+
+            if (tentativeG < gScore[neighbor]) 
+            {
+                prev[neighbor] = currentNode;
+                gScore[neighbor] = tentativeG;
+                fScore[neighbor] = tentativeG + heuristic(neighbor, to);
+                pq.push({fScore[neighbor], neighbor});
+            }
+        }
+    }
+
+    //making sure the graph is connected
+    if (gScore[to] == std::numeric_limits<double>::infinity())
+        return {};
+    
+    current = to;
+
+    while (current != from) 
+    {
+        path.push_back(current);
+    
+        if (prev.find(current) == prev.end() || prev[current] == "")
+            return {};
+
+        current = prev[current];
+    }
+
+    path.push_back(from);
+
+    reverse(path.begin(), path.end());
+
+    return path;
+}
+
 //method for printing each vertex and all the outgoing edges
 void Graph::print() const
 {
@@ -436,8 +607,8 @@ void Graph::print() const
 }
 
 //method for finding the distance between two nodes using x and y
-double Graph::heuristic(const string &A, const string &B)
+double Graph::heuristic(const string &A, const string &B) const
 {
     //calculating the distance between two two-dimensional nodes
-    return sqrt(pow((nodes[B].x - nodes[A].x), 2) + pow((nodes[B].y - nodes[A].y), 2));
+    return sqrt(pow((nodes.at(B).x - nodes.at(A).x), 2) + pow((nodes.at(B).y - nodes.at(A).y), 2));
 }

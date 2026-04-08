@@ -30,10 +30,10 @@ cmake ..
 make
 
 RUN INTERACTIVE MODE
-./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1
+./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1 --nodes ../Nodes.csv --algorithm astar
 
 RUN SIMULATION MODE
-./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1000
+./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1000 --nodes ../Nodes.csv --algorithm astar
 
 TEST DIJKSTRA
 ./test_dijkstra
