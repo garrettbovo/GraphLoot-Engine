@@ -76,6 +76,7 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
     Chest chest;
     vector<string> neighbors, path;
     int intInput;
+    PathResult samplePath;
 
     //welcoming the user to the game and printing the map
     cout << "WELCOME TO THE BATTLE BUS" << endl;
@@ -150,21 +151,27 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
                     
                 //running A* algorithm
                 if (algorithm == "astar")
-                    path = world.getAStarConst(currentLoc, destination);
+                    samplePath = world.getAStarConst(currentLoc, destination);
                         
                 //running dijkstra's algorithm  
                 else
-                    path = world.getShortestPathConst(currentLoc, destination);
+                    samplePath = world.getShortestPathConst(currentLoc, destination);
+
+                if (samplePath.path.empty())
+                {
+                    cout << "No route exists to that destination.\n";
+                    continue;
+                }
 
                 //displaying the fastest route to the destination path using a loop through the vector
                 cout << "\nFastest route:" << endl;
 
-                for (int i = 0; i < path.size(); i++)
+                for (int i = 0; i < samplePath.path.size(); i++)
                 {
-                    if (i + 1 != path.size())
-                        cout << path[i] << " -> ";
+                    if (i + 1 != samplePath.path.size())
+                        cout << samplePath.path[i] << " -> ";
                     else
-                        cout << path[i];
+                        cout << samplePath.path[i];
                 }
                 
                 //looping until the user decides to travel that route or to not take that route while remaining at the current POI

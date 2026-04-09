@@ -21,8 +21,8 @@ struct Node
 struct PathResult
 {
     vector<string> path;
-    double cost;
-    int nodesVisited;
+    double cost = 0.0;
+    int nodesVisited = 0;
 };
 
 class Graph
@@ -39,9 +39,9 @@ class Graph
         //adding two-dimensional location to given vertex
         void addNode(const string &, const double &, const double &);
         //method returning a vector of the shortest path from vertex A to vertex B
-        vector<string> shortestPath(const string &, const string &);
+        vector<string> shortestPath(const string &, const string &) const;
         //method returning a vector of the a* path from vertex A to vertex B
-        vector<string> aStar(const string &, const string &);
+        vector<string> aStar(const string &, const string &) const;
         //method for comparing path from vertex A to vertex B using shortest path and A*
         vector<string> comparePaths(const string &, const string &);
         //method for showing fastest route from Dijkstra

@@ -34,12 +34,12 @@ class World
         vector<string> getNeighbors(const string &) const;
         //method returning the shortest path from vertex A to vertex B
         vector<string> getShortestPath(const string &, const string &);
-        //method returning the shortest path from vertex A to B const
-        vector<string> getShortestPathConst(const string &, const string &) const;
+        //method returning the shortest path from vertex A to B const without modifying the player's location
+        PathResult getShortestPathConst(const string &, const string &) const;
         //method returning the a* path from vertex A to vertex B
         vector<string> getAStar(const string &, const string &);
-        //method returning the a* path from vertex A to B const
-        vector<string> getAStarConst(const string &, const string &) const;
+        //method returning the a* path from vertex A to B const without modifying the player's location
+        PathResult getAStarConst(const string &, const string &) const;
         //method for returning the shortest path/a* path comparison from vertex A to vertex B
         vector<string> getComparison(const string &, const string &);
         //getter returning the chest at the given POI

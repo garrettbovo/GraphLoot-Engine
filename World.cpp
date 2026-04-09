@@ -59,16 +59,16 @@ vector<string> World::getShortestPath(const string &from, const string &to)
     return graph.shortestPath(from, to);
 }
 
-//method returning the shortest path from vertex A to B const
-vector<string> World::getShortestPathConst(const string &vertexA, const string &vertexB) const
+//method returning the shortest path from vertex A to B const without modifying the player's location
+PathResult World::getShortestPathConst(const string &vertexA, const string &vertexB) const
 {
-    return graph.routeDijsktra(vertexA, vertexB);
+    return graph.runDijkstra(vertexA, vertexB);
 }
 
-//method returning the shortest path from vertex A to B const
-vector<string> World::getAStarConst(const string &vertexA, const string &vertexB) const
+//method returning the shortest path from vertex A to B const without modifying the player's location
+PathResult World::getAStarConst(const string &vertexA, const string &vertexB) const
 {
-    return graph.routeAStar(vertexA, vertexB);
+    return graph.runAStar(vertexA, vertexB);
 }
 
 //method returning the a* path from vertex A to vertex B
