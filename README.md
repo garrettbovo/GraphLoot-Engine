@@ -154,6 +154,36 @@ GraphLoot-Engine/
   <p>
     <strong>Time Complexity:</strong> O(E log V) using a binary heap
   </p>
+
+  <h3>A* Search Algorithm</h3>
+
+  <p>
+    The engine also supports <strong>A* search</strong> as an alternate pathfinding algorithm.
+    A* uses the same weighted graph structure as Dijkstra, but adds a distance-based heuristic
+    from <code>Nodes.csv</code> to prioritize locations that are estimated to be closer to the
+    destination.
+  </p>
+
+  <ul>
+    <li>
+      Loads two-dimensional POI coordinates from <code>Nodes.csv</code>
+    </li>
+    <li>
+      Uses a Euclidean-distance heuristic to guide traversal toward the destination
+    </li>
+    <li>
+      Tracks g-scores, f-scores, and predecessor nodes to reconstruct the full route
+    </li>
+    <li>
+      Supports comparison mode, which writes Dijkstra and A* cost, nodes explored, and timing
+      data to <code>CompareAlgorithms.txt</code>
+    </li>
+  </ul>
+
+  <p>
+    A* can be selected at runtime with <code>--algorithm astar</code>. Comparison mode can be
+    selected with <code>--algorithm compare</code>.
+  </p>
 </section>
 
 <section id="gameplay">
@@ -288,12 +318,22 @@ make
 
 <h4>Run Interactive Mode</h4>
 <pre>
-./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1
+./engine --map ../DefaultMap.csv --loot ../Items.csv --nodes ../Nodes.csv --algorithm dijkstra --runs 1
 </pre>
 
 <h4>Run Simulation Mode</h4>
 <pre>
-./engine --map ../DefaultMap.csv --loot ../Items.csv --runs 1000
+./engine --map ../DefaultMap.csv --loot ../Items.csv --nodes ../Nodes.csv --algorithm dijkstra --runs 1000
+</pre>
+
+<h4>Run With A*</h4>
+<pre>
+./engine --map ../DefaultMap.csv --loot ../Items.csv --nodes ../Nodes.csv --algorithm astar --runs 1
+</pre>
+
+<h4>Compare Dijkstra and A*</h4>
+<pre>
+./engine --map ../DefaultMap.csv --loot ../Items.csv --nodes ../Nodes.csv --algorithm compare --runs 1
 </pre>
 
   <hr>
