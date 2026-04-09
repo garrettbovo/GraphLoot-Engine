@@ -5,6 +5,7 @@ engine
 
 # Build directories
 build/
+build*/
 
 # IDE files
 .vscode/
