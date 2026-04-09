@@ -82,11 +82,12 @@ GraphLoot-Engine/
 ├── DefaultMap.csv         # Default map configuration
 ├── TestMap.csv            # Test map for debugging
 ├── Items.csv              # Item definitions and stats
+├── Nodes.csv              # Two-dimensional positioning of POIs
 │
 ├── Results.txt            # Output results from simulation runs
+├── CompareAlgorithms.txt  # Output results from moving player across map
 │
 ├── Makefile               # Build automation
-├── .vscode/               # VSCode configuration
 └── README.md              # Project documentation
   </pre>
 </section>
