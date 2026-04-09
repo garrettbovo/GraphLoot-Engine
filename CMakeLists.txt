@@ -27,3 +27,10 @@ add_executable(test_dijkstra
 )
 
 target_include_directories(test_dijkstra PRIVATE ${CMAKE_SOURCE_DIR})
+
+add_executable(test_astar
+    tests/test_astar.cpp
+    WorldGraph.cpp
+)
+
+target_include_directories(test_astar PRIVATE ${CMAKE_SOURCE_DIR})

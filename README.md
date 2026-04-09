@@ -311,12 +311,24 @@ make
 
   <p>
     The project includes automated tests to verify correctness of core algorithms.
-    A deterministic test validates the Dijkstra shortest-path implementation against
+    Deterministic tests validate both Dijkstra's algorithm and A* search against
     known graph configurations.
   </p>
 
+  <p>
+    Current test coverage includes:
+  </p>
+
+  <ul>
+    <li>Dijkstra shortest-path routing</li>
+    <li>A* shortest-path routing with node-coordinate heuristics</li>
+    <li>Same-start-and-destination path handling</li>
+    <li>Unreachable destination handling</li>
+  </ul>
+
   <pre>
 ./test_dijkstra
+./test_astar
   </pre>
 
   <p>

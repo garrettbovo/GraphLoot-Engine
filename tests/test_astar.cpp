@@ -7,10 +7,24 @@
 
 using namespace std;
 
+void add_test_nodes(Graph &graph)
+{
+    graph.addNode("Lonely Labs", 1, 6);
+    graph.addNode("Anvil Square", 1, 4);
+    graph.addNode("Mega City", 5, 4);
+    graph.addNode("Brutal Bastion", 1, 2);
+    graph.addNode("Slappy Shores", 3, 2);
+    graph.addNode("Frenzy Fields", 6, 2);
+    graph.addNode("Faulty Splits", 3, 1);
+    graph.addNode("Shattered Slabs", 3, 0);
+}
+
 void test_shortest_path() 
 {
     Graph graph;
     vector<string> expected, result;
+
+    add_test_nodes(graph);
 
     graph.addEdge("Lonely Labs", "Anvil Square", 5.0);
     graph.addEdge("Lonely Labs", "Mega City", 6.5);
@@ -25,7 +39,7 @@ void test_shortest_path()
     graph.addEdge("Frenzy Fields", "Shattered Slabs", 4.5);
 
     expected = {"Mega City", "Slappy Shores", "Faulty Splits", "Shattered Slabs"};
-    result = graph.shortestPath("Mega City", "Shattered Slabs");
+    result = graph.aStar("Mega City", "Shattered Slabs");
 
     assert(result == expected);
     assert(result.size() == 4);
@@ -37,9 +51,10 @@ void test_same_start_end()
     vector<string> expected, result;
 
     g.addVertex("Mega City");
+    g.addNode("Mega City", 5, 4);
 
     expected = {"Mega City"};
-    result = g.shortestPath("Mega City", "Mega City");
+    result = g.aStar("Mega City", "Mega City");
 
     assert(result == expected);
     assert(result.size() == 1);
@@ -49,10 +64,12 @@ void unreachable()
 {
     Graph g;
 
+    add_test_nodes(g);
+
     g.addEdge("Mega City", "Frenzy Fields", 5);
     g.addEdge("Anvil Square", "Slappy Shores", 3);
 
-    assert(g.shortestPath("Mega City", "Slappy Shores").empty());
+    assert(g.aStar("Mega City", "Slappy Shores").empty());
 }
 
 int main() {
