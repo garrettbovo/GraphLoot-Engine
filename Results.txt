@@ -3,25 +3,25 @@
       GRAPH LOOT ENGINE RESULTS
 ========================================
 
-Simulation Runs: 2
+Simulation Runs: 5
 Steps per Run: 5
-Total Loot Rolls: 5
+Total Loot Rolls: 17
 
 ----------------------------------------
 Rarity Distribution
 ----------------------------------------
-Common      : 20.00 % (1)
-Uncommon    : 40.00 % (2)
-Rare        : 20.00 % (1)
-Epic        : 20.00 % (1)
-Legendary   : 20.00 % (1)
+Common      : 29.41 % (5)
+Uncommon    : 47.06 % (8)
+Rare        : 0.00  % (0)
+Epic        : 17.65 % (3)
+Legendary   : 5.88  % (1)
 
 ----------------------------------------
 Weapon Type Distribution
 ----------------------------------------
-AR          : 60.00 % (3)
-Shotgun     : 60.00 % (3)
-SMG         : 20.00 % (1)
-Heavy       : 20.00 % (1)
+AR          : 41.18 % (7)
+Shotgun     : 35.29 % (6)
+SMG         : 17.65 % (3)
+Heavy       : 5.88  % (1)
 
 ========================================

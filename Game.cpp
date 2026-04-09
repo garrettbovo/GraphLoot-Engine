@@ -195,7 +195,10 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
                         
                         //running the both algorithms and comparing their results    
                         else
-                            path = world.getComparison(currentLoc, destination);
+                        {
+                            world.getComparison(currentLoc, destination);
+                            path = samplePath.path;
+                        }
 
                         //checking if the path is empty to throw an error
                         if (path.empty())
@@ -332,6 +335,14 @@ void Game::writeSimulation(const int &runs) const
     file << "Steps per Run: " << STEPS << endl;
     file << "Total Loot Rolls: " << totalRolls << endl;
 
+    if (totalRolls == 0)
+    {
+        file << "\nNo loot rolls were recorded.\n";
+        file << "\n========================================\n";
+        file.close();
+        return;
+    }
+
     //printing menu
     file << "\n----------------------------------------\n";
     file << "Rarity Distribution\n";
@@ -349,7 +360,9 @@ void Game::writeSimulation(const int &runs) const
         //checking if the iterator is pointing to a valid key; if so, get the value from the map
         if (it != rarityCounts.end())
             count = rarityCounts.at(rarityOrder[i]);
-        //otherwise, skip this iteration of the loop
+        //otherwise, report zero instead of reusing the previous loop's count
+        else
+            count = 0;
 
         //printing weapon rarity statistics to the file
         file << left << setw(12) << rarityOrder[i] << ": " << setw(6) << double (count) / totalRolls * 100 << "% (" << count << ")" << endl;
@@ -369,6 +382,9 @@ void Game::writeSimulation(const int &runs) const
         //checking to see if the simulation encountered the current weapon type; if so, tally the total number the weapon type was looted
         if (it != typeCounts.end())
             count = typeCounts.at(gunOrder[i]);
+        //otherwise, report zero instead of reusing the previous loop's count
+        else
+            count = 0;
 
         //printing the weapon name based on the predefined order for weapon display noted in gunOrder vector
         switch (gunOrder[i])

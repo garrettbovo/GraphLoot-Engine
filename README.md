@@ -21,9 +21,36 @@
 </p>
 </header>
 
+<section id="quick-demo">
+  <h2>Quick Demo</h2>
+  <p>
+    In interactive mode, the engine computes the fastest route between named POIs and then
+    simulates the player traveling along that route.
+  </p>
+
+  <pre>
+Select a drop spot: Anvil Square
+
+Current Location: Anvil Square
+Enter your choice: 1
+
+Where would you like to go?: Shattered Slabs
+
+Fastest route:
+Anvil Square -> Slappy Shores -> Faulty Splits -> Shattered Slabs
+
+Travel this route? (Yes/No): Yes
+
+Arrived at Slappy Shores!
+Arrived at Faulty Splits!
+Arrived at Shattered Slabs!
+  </pre>
+</section>
+
 <details>
   <summary><strong>Table of Contents 📖</strong></summary>
   <ul>
+    <li><a href="#quick-demo">Quick Demo</a></li>
     <li><a href="#overview">Overview</a></li>
     <li><a href="#features">Key Features</a></li>
     <li><a href="#structure">Project Structure</a></li>

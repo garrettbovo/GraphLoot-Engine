@@ -1,17 +1,17 @@
 ================ COMPARISON ================
 
-Start: Brutal Bastion
+Start: Anvil Square
 End: Shattered Slabs
 
 Dijkstra:
-Path Cost: 13.5
+Path Cost: 9.5
 Nodes Explored: 7
-Time: 0.1421 ms
+Time: 0.0906 ms
 
 A*:
-Path Cost: 13.5
+Path Cost: 9.5
 Nodes Explored: 5
-Time: 0.0928 ms
+Time: 0.1018 ms
 
 ===========================================
 
