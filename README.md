@@ -13,7 +13,8 @@
 
 [**🚀 Try it Live**](https://garrettbovo.github.io/GraphLootWASM/)
 
-![Graph Visualization](./docs/screenshot.png)
+[![Demo](demo.gif)](https://garrettbovo.github.io/GraphLootWASM/)
+
 
 <p>
   You can run this project directly in your browser without creating an account:
