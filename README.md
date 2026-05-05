@@ -2,53 +2,43 @@
 
 <header>
   <h1>Fortnite Graph Loot Engine</h1>
-  <p>
-    A configurable C++ simulation engine that models traversal across a weighted graph while generating probabilistic loot outcomes. Designed to analyze loot distributions and traversal behavior using large-scale simulation.
-  </p>
-
-
-  <h2>How to Run the Code</h2>
-
-## Interactive Graph Visualization
-
-[**🚀 Try it Live**](https://garrettbovo.github.io/GraphLootWASM/)
-
-[![Demo](demo.gif)](https://garrettbovo.github.io/GraphLootWASM/)
-
-
-<p>
-  You can run this project directly in your browser without creating an account:
-  <a href="https://onlinegdb.com/Ay8gTHQf_" target="_blank">
-    👉 Click here to open on OnlineGDB
-  </a>
-</p>
-
-<p>
-  ⚠️ OnlineGDB is intended for quick interactive demos only.  
-  For full simulation capabilities, run locally using the Makefile.
-</p>
+  <p>A configurable C++ simulation engine that models traversal across a weighted graph while generating probabilistic loot outcomes. Designed to analyze loot distributions and traversal behavior using large-scale simulation.</p>
 </header>
 
-<section id="quick-demo">
-  <h2>Quick Demo</h2>
+<section id="interactive-demo">
+  <h2>Interactive Graph Visualization</h2>
+  
+  <a href="https://garrettbovo.github.io/GraphLootWASM/">
+    <img src="https://raw.githubusercontent.com/garrettbovo/GraphLootWASM/main/Videos/demo.gif" alt="Demo" width="800">
+  </a>
+  
   <p>
-    In interactive mode, the engine computes the fastest route between named POIs and then
-    simulates the player traveling along that route.
+    <strong><a href="https://garrettbovo.github.io/GraphLootWASM/">→ Open interactive demo</a></strong>
   </p>
+</section>
 
+<section id="how-to-run">
+  <h2>How to Run the Code</h2>
+  
+  <h3>Quick Interactive Demo</h3>
+  <p>You can run this project directly in your browser without creating an account:</p>
+  <p>
+    <strong><a href="https://onlinegdb.com/Ay8gTHQf_" target="_blank">👉 Click here to open on OnlineGDB</a></strong>
+  </p>
+  <p>⚠️ OnlineGDB is intended for quick interactive demos only. For full simulation capabilities, run locally using the Makefile using the instructions <a href="https://github.com/garrettbovo/GraphLoot-Engine/edit/main/README.md#-full-usage-local-environment-with-makefile">here</a>.</p>
+  
+  <h3>Example Gameplay</h3>
+  <p>In interactive mode, the engine computes the fastest route between named POIs and then simulates player traversal:</p>
   <pre>
 Select a drop spot: Anvil Square
-
 Current Location: Anvil Square
 Enter your choice: 1
-
 Where would you like to go?: Shattered Slabs
 
 Fastest route:
 Anvil Square -> Slappy Shores -> Faulty Splits -> Shattered Slabs
 
 Travel this route? (Yes/No): Yes
-
 Arrived at Slappy Shores!
 Arrived at Faulty Splits!
 Arrived at Shattered Slabs!
@@ -58,7 +48,6 @@ Arrived at Shattered Slabs!
 <details>
   <summary><strong>Table of Contents 📖</strong></summary>
   <ul>
-    <li><a href="#quick-demo">Quick Demo</a></li>
     <li><a href="#overview">Overview</a></li>
     <li><a href="#features">Key Features</a></li>
     <li><a href="#structure">Project Structure</a></li>
