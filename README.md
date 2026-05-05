@@ -25,7 +25,7 @@
   <p>
     <strong><a href="https://onlinegdb.com/Ay8gTHQf_" target="_blank">👉 Click here to open on OnlineGDB</a></strong>
   </p>
-  <p>⚠️ OnlineGDB is intended for quick interactive demos only. For full simulation capabilities, run locally using the Makefile using the instructions <a href="https://github.com/garrettbovo/GraphLoot-Engine/edit/main/README.md#-full-usage-local-environment-with-makefile">here</a>.</p>
+  <p>⚠️ OnlineGDB is intended for quick interactive demos only. For full simulation capabilities, run locally using the Makefile using the instructions <a href="https://github.com/garrettbovo/GraphLoot-Engine/tree/main#-full-usage-local-environment-with-makefile">here</a>.</p>
   
   <h3>Example Gameplay</h3>
   <p>In interactive mode, the engine computes the fastest route between named POIs and then simulates player traversal:</p>
