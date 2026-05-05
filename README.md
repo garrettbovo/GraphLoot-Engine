@@ -8,6 +8,13 @@
 
 
   <h2>How to Run the Code</h2>
+
+## Interactive Graph Visualization
+
+[**🚀 Try it Live**](https://garrettbovo.github.io/GraphLootWASM/)
+
+![Graph Visualization](./docs/screenshot.png)
+
 <p>
   You can run this project directly in your browser without creating an account:
   <a href="https://onlinegdb.com/Ay8gTHQf_" target="_blank">
