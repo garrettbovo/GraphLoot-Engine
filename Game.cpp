@@ -267,42 +267,63 @@ bool Game::run(ItemDatabase &db, const string &algorithm)
 }
 
 //method for simulation
-void Game::simulate(ItemDatabase &db)
+SimulationResult Game::simulateOnce(ItemDatabase &db)
 {
     //variable declaration
     Chest chest;
     unordered_map<string, int> visited;
+    SimulationResult simulation;
+    World worldCopy = world;
+    string currentLocCopy;
 
     //assigning the simulation's location on the map to any named location
-    currentLoc = world.randomPOI();
+    currentLocCopy = worldCopy.randomPOI();
 
     //moving along the map STEPS number of times
     for (int i = 0; i < STEPS; i++)
     {
         //checking if the current named location has a chest that has not been looted
-        if (world.hasChest(currentLoc))
+        if (worldCopy.hasChest(currentLocCopy))
         {
             //opening the chest
             chest = db.openChest();
 
             //adding the weapon's content to the two maps to be used in Results.txt
-            rarityCounts[rarityToString(chest.getWeapon()->getRarityID())]++;
-            typeCounts[chest.getWeapon()->getAmmo()]++;
+            simulation.rarityCounts[rarityToString(chest.getWeapon()->getRarityID())]++;
+            simulation.typeCounts[chest.getWeapon()->getAmmo()]++;
 
             //marking down which POI has just been visited to ensure a chest is added back to the location
-            visited[currentLoc] = 1;
+            visited[currentLocCopy] = 1;
 
             //removing the chest from the map
-            world.eraseChest(currentLoc);
+            worldCopy.eraseChest(currentLocCopy);
         }
         
         //moving the simulation to a random POI that is a neighbor to the current POI
-        currentLoc = world.randomNeighbor(currentLoc);
+        currentLocCopy = worldCopy.randomNeighbor(currentLocCopy);
     }
 
     //iterating through the map of visited POIs to add the chests back that were looted
     for (auto it = visited.begin(); it != visited.end(); it++)
-        world.addChest(it->first, db.openChest());
+        worldCopy.addChest(it->first, db.openChest());
+    
+    return simulation;
+}
+
+//method for aggregating the results of simulations into the maps attributes of the Game class
+void Game::aggregate(const SimulationResult &result)
+{
+    //iterator declarations for the two maps to be aggregated into
+    auto it = result.rarityCounts.begin();
+    auto it2 = result.typeCounts.begin();
+
+    //looping through the rarity map and adding the counts from the simulation result to the Game class's rarityCounts map
+    for (; it != result.rarityCounts.end(); it++)
+        rarityCounts[it->first] += it->second;
+
+    //looping through the weapon type map and adding the counts from the simulation result to the Game class's typeCounts map
+    for (; it2 != result.typeCounts.end(); it2++)
+        typeCounts[it2->first] += it2->second;
 }
 
 //method for writing simulation results to output file

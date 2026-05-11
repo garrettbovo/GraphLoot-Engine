@@ -10,6 +10,14 @@
 //number of times the simulator should traverse the map in each run of the simulation
 #define STEPS 5
 
+//struct for storing the results of a simulation run
+struct SimulationResult
+{
+    //public member attributes
+    unordered_map<string, int> rarityCounts;
+    unordered_map<bullet, int> typeCounts;
+};
+
 class Game
 {
     //private member attributes
@@ -39,8 +47,10 @@ class Game
         unordered_map<bullet, int> getTypeCounts() const { return typeCounts; }
         //method for running the game
         bool run(ItemDatabase &, const string &);
-        //method for simulation
-        void simulate(ItemDatabase &);
+        //method for simulation that simulates one run of the game and returns the results of the simulation as maps stored in a SimulationResult struct
+        SimulationResult simulateOnce(ItemDatabase &);
+        //method for aggregating the results of simulations into the maps attributes of the Game class
+        void aggregate(const SimulationResult &);
         //printing the game's world
         void printWorld() const;
         //printing the game's menu

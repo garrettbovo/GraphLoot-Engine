@@ -34,3 +34,10 @@ add_executable(test_astar
 )
 
 target_include_directories(test_astar PRIVATE ${CMAKE_SOURCE_DIR})
+
+add_executable(test_benchmark
+    tests/test_benchmark.cpp
+    WorldGraph.cpp
+)
+
+target_include_directories(test_benchmark PRIVATE ${CMAKE_SOURCE_DIR})

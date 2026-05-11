@@ -8,6 +8,10 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
+#include <thread>
+#include <future>
+#include <mutex>
 using namespace std;
 
 /*HOW TO COMPILE & RUN THE PROGRAM
@@ -51,9 +55,12 @@ int main(int argc, char *argv[])
     Game game;
     int runs = 1;
     string strRuns, strAlgorithm;
+    mutex gameMutex;
+    vector<thread> threads;
 
     //onlineGDB safe version of the interactive Fortnite mode
-    if (argc == 1) {
+    if (argc == 1)
+    {
         //no CLI args provided → fallback (OnlineGDB)
         static char arg0[] = "engine";
         static char arg1[] = "--map";
@@ -62,8 +69,8 @@ int main(int argc, char *argv[])
         static char arg4[] = "Items.csv";
         static char arg5[] = "--runs";
         static char arg6[] = "1";
-        
-        static char* fakeArgv[] = { arg0, arg1, arg2, arg3, arg4, arg5, arg6 };
+
+        static char *fakeArgv[] = {arg0, arg1, arg2, arg3, arg4, arg5, arg6};
 
         argc = 7;
         argv = fakeArgv;
@@ -74,7 +81,7 @@ int main(int argc, char *argv[])
     {
         //reading in CLI for how many times the game should run
         strRuns = getArgValue(argc, argv, "--runs");
-        
+
         //converting the valid string input into and integer variable
         if (strRuns != "")
             runs = stoi(strRuns);
@@ -82,16 +89,16 @@ int main(int argc, char *argv[])
 
     //determining which algorithm to use for player movement
     strAlgorithm = getArgValue(argc, argv, "--algorithm");
-        
+
     //checking if the algorithm CLI was empty; if so, default to dijkstra
     if (strAlgorithm == "" || strAlgorithm == "dijkstra")
         strAlgorithm = "dijkstra";
-    
+
     //checking if the algorithm CLI was prompting a*
     else if (strAlgorithm == "astar")
         strAlgorithm = "astar";
-    
-    //checking if the algorithm CLI was prompting to compare dijkstra's and a*    
+
+    //checking if the algorithm CLI was prompting to compare dijkstra's and a*
     else if (strAlgorithm == "compare")
         strAlgorithm = "compare";
 
@@ -112,13 +119,29 @@ int main(int argc, char *argv[])
     //running the interactive version of the game if the user said to run the game one time
     if (runs == 1)
         game.run(data, strAlgorithm);
-    
+
     //running the simulated version of the game if the user said to run the game more than once
     else if (runs > 1)
     {
         //running the simulation runs number of times
         for (int i = 0; i < runs; i++)
-            game.simulate(data);
+            //instantiating a thread for each run of the simulation
+            threads.emplace_back([&game, &data, &gameMutex]
+            { 
+                //running a single simulation
+                SimulationResult result = game.simulateOnce(data);
+
+                //locking the game mutex to safely aggregate the results of the simulation into the Game class' attributes
+                {
+                    lock_guard<mutex> lock(gameMutex);
+                    game.aggregate(result);
+                }
+            });
+
+        //looping through all the threads and joining them after
+        for (int i = 0; i < threads.size(); i++)
+            if (threads[i].joinable())
+                threads[i].join();
 
         //writing the simulation results to an output file
         game.writeSimulation(runs);
