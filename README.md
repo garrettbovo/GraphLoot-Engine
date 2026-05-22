@@ -56,6 +56,7 @@ Arrived at Shattered Slabs!
     <li><a href="#gameplay">Gameplay Flow</a></li>
     <li><a href="#skills">Skills Demonstrated</a></li>
     <li><a href="#usage">How to Run</a></li>
+    <li><a href="#threading">Parallel Simulation</a></li>
     <li><a href="#testing">Testing & Validation</a></li>
     <li><a href="#results">Results</a></li>
   </ul>
@@ -368,6 +369,28 @@ make
     <li>OnlineGDB does not support command-line arguments reliably</li>
     <li>Use local execution for full feature support</li>
   </ul>
+</section>
+
+<section id="threading">
+<h2>Parallel Simulation</h2>
+
+Running 1,000,000+ simulations sequentially is wall-clock prohibitive — even at
+microseconds per run, single-threaded execution leaves multi-core hardware idle.
+The engine partitions the total run count across `std::thread` workers and
+aggregates results with a mutex-protected accumulator.
+
+* Worker threads each execute an independent slice of the simulation batch
+  (e.g., 250,000 runs per core on a 4-core machine)
+* Each thread maintains thread-local counters for rarity and weapon
+  distributions, eliminating contention during the hot loop
+* Results are merged into a shared aggregator at thread completion under a
+  single `std::mutex` lock, avoiding lock contention during simulation
+* Worker count is determined at runtime via `std::thread::hardware_concurrency()`
+  for portable multi-core scaling
+
+This approach scales near-linearly with core count up to memory-bandwidth
+limits, since the simulation is CPU-bound with negligible shared state during
+execution.
 </section>
 
 <section id="testing">
