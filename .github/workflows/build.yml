@@ -8,20 +8,22 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++
 
-      - name: Configure and build
-        run: |
-          rm -rf build
-          mkdir build
-          cd build
-          cmake ..
-          make
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
-      - name: Run tests
-        run: |
-          cd build
-          ./test_dijkstra
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Test — Dijkstra
+        run: ./build/test_dijkstra
+
+      - name: Test — A*
+        run: ./build/test_astar
+
+      - name: Benchmark — A* vs Dijkstra
+        run: ./build/test_benchmark
